@@ -20,9 +20,12 @@ export default defineConfig({
         {
           text: "开始",
           items: [
+            { text: "Markdown", link: "/start/markdown" },
             { text: "Vite", link: "/start/vite" },
             { text: "JWT", link: "/start/jwt" },
             { text: "Express", link: "/start/express" },
+            { text: "N", link: "/start/n" },
+            { text: "虚拟机", link: "/start/virtual" },
           ],
         },
       ],
@@ -47,4 +50,5 @@ export default defineConfig({
     },
   },
   srcDir: "./src",
+  ignoreDeadLinks: true  // 忽略死链
 });
