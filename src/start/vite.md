@@ -26,13 +26,13 @@
   - 使用 Rollup
   - 优化的静态资源文件，实现代码的优化、压缩和打包。
 
-## install
+## 搭建 Vite 项目
 
 ```bash
 npm create vite@latest
 ```
 
-## proxy
+## proxy 代理
 
 ```js
 server: {
@@ -45,7 +45,5 @@ server: {
     },
   },
 ```
-
-底层使用 `http-proxy` 实现
-
-[https://www.npmjs.com/package/http-proxy](https://www.npmjs.com/package/http-proxy)
+### 实现
+底层使用 [`http-proxy`](https://www.npmjs.com/package/http-proxy) 实现

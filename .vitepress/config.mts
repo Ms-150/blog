@@ -53,6 +53,7 @@ export default defineConfig({
       { text: "关于", link: "/about" },
     ],
     darkModeSwitchLabel: "主题",
+    sidebarMenuLabel: "菜单列表",
     docFooter: {
       prev: "上一页",
       next: "下一页",
@@ -64,13 +65,21 @@ export default defineConfig({
           text: "开始",
           items: [
             { text: "Markdown", link: "/start/markdown" },
-            { text: "Vite", link: "/start/vite" },
-            { text: "JWT", link: "/start/jwt" },
-            { text: "Express", link: "/start/express" },
             { text: "N", link: "/start/n" },
             { text: "虚拟机", link: "/start/virtual" },
             { text: "Linux", link: "/start/linux" },
             { text: "vi & vim", link: "/start/vi&vim" },
+            { text: "TCP", link: "/start/tcp" },
+            { text: "Ajax", link: "/start/ajax" },
+            { text: "WebSocket", link: "/start/webSocket" },
+            { text: "Navigator.sendBeacon", link: "/start/navigator.sendBeacon" },
+            { text: "TSL/SSL", link: "/start/tsl&ssl" },
+            { text: "跨域", link: "/start/cross-domain" },
+            { text: "Vite", link: "/start/vite" },
+            { text: "JWT", link: "/start/jwt" },
+            { text: "Express", link: "/start/express" },
+            { text: "Docker", link: "/start/docker" },
+            { text: "Nginx", link: "/start/nginx" },
           ],
         },
       ],
@@ -86,8 +95,8 @@ export default defineConfig({
     },
 
     outline: {
-      level: 'deep',
-      label: "页面导航"
+      level: [1, 6],
+      label: "页面导航",
     },
 
     socialLinks: [{ icon: "github", link: "https://github.com/Ms-150" }],
