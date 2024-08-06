@@ -78,6 +78,8 @@ export default defineConfig({
             { text: "Vite", link: "/start/vite" },
             { text: "JWT", link: "/start/jwt" },
             { text: "Express", link: "/start/express" },
+            { text: "Network", link: "/start/network" },
+            { text: "Security", link: "/start/security" },
             { text: "Docker", link: "/start/docker" },
             { text: "Nginx", link: "/start/nginx" },
           ],

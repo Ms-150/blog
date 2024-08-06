@@ -55,13 +55,17 @@ openssl help
 
 ### 生成自签名证书 过程
 
-1. 生成私钥文件（Private Key）
-2. 生成证书签名请求文件（Certificate Signing Request, CSR）
-3. 生成自签名证书 TSL/SSL 文件
+#### 1. 生成 私钥文件（Private Key）文件
+#### 2. 生成 证书签名请求 `.csr`（Certificate Signing Request）文件
+#### 3. 生成 签名证书 `.crt` 文件
 
 ```bash
 # 1 成一个 2048 位的 RSA 算法 私钥，并将其保存在 private-key.pem 文件中。
 openssl genrsa -out private-key.pem 2048
+# or
+openssl genpkey -algorithm RSA -out private-key.pem -aes256
+# 生成一个使用 AES-256 加密的私钥。在生成过程中，
+# 会被提示输入一个密码，以保护这个私钥。这个密码在以后的使用过程中需要提供来解密私钥。
 
 # 命令 genrsa == genpkey -algorithm RSA
 # genpkey 默认算法是 ECC

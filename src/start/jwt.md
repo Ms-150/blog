@@ -4,11 +4,14 @@
 
 [https://jwt.io/introduction](https://jwt.io/introduction)
 
-```js
-// 示例
+## 示例
+
+`.`分割
+
+```
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
-  .eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ
-  .SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c;
+.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ
+.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c;
 ```
 
 ## 组成 composition
@@ -18,52 +21,49 @@ eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
 Header.Payload.Signature;
 ```
 
-1.  Header 头部
+### 1. Header 头部
 
-    描述 JWT 的元数据
+描述 JWT 的元数据
 
-    ```json
-    {
-      "alg": "HS256", // algorithm 签名的算法 默认 HS256 (HMAC SHA256)
-      "typ": "JWT" // type 令牌的类型 JWT 令牌统一写为JWT
-    }
-    ```
+```json
+{
+  "alg": "HS256", // algorithm 签名的算法 默认 HS256 (HMAC SHA256)
+  "typ": "JWT" // type 令牌的类型 JWT 令牌统一写为JWT
+}
+```
 
-2.  Payload 载荷
+### 2. Payload 载荷
 
-    实际需要传递的数据
+实际需要传递的数据
 
-    ### JWT 规定了 7 个官方字段
+#### JWT 规定了 7 个官方字段
 
-    1. iss (issuer) // 签发人
-    2. exp (expiration time) // 过期时间
-    3. sub (subject) // 主题
-    4. aud (audience) // 受众
-    5. nbf (Not Before) // 生效时间
-    6. iat (Issued At) // 签发时间
-    7. jti (JWT ID) // 编号
+1.  iss (issuer) // 签发人
+2.  exp (expiration time) // 过期时间
+3.  sub (subject) // 主题
+4.  aud (audience) // 受众
+5.  nbf (Not Before) // 生效时间
+6.  iat (Issued At) // 签发时间
+7.  jti (JWT ID) // 编号
 
-    还可以在这个部分定义私有字段
+还可以在这个部分定义私有字段
 
-    ```json
-    "name": "John Doe",
-    "admin": true
-    ```
+```json
+"name": "John Doe",
+"admin": true
+```
 
-    这部分默认不加密，不能把秘密信息放在这个部分
+这部分默认不加密，不能把秘密信息放在这个部分
 
-3.  Signature 签名
+### 3. Signature 签名
 
-    对前两部分的签名，防止数据篡改。
+对前两部分的签名，防止数据篡改。
 
-    指定一个密钥 `secret`。这个密钥只有服务器才知道，不能泄露给用户。对前两部分的签名，防止数据篡改。
+指定一个密钥 `secret`（盐）。这个密钥只有服务器才知道，不能泄露给用户。对前两部分的签名，防止数据篡改。
 
-    ```js
-    HMACSHA256(
-      base64UrlEncode(header) + "." + base64UrlEncode(payload),
-      secret
-    );
-    ```
+```js
+HMACSHA256(base64UrlEncode(header) + "." + base64UrlEncode(payload), secret);
+```
 
 ## Base64URL
 
@@ -73,13 +73,13 @@ Base64 有三个字符`+`、`/`和`=`，在 URL 里面有特殊含义，所以�
 
 ## JWT 的使用方式
 
-客户端收到服务器返回的 JWT，可以储存在 Cookie 里面，也可以储存在 localStorage / sessionStorage。
+客户端收到服务器返回的 JWT，可以储存在 `Cookie` 里面，也可以储存在 `localStorage` / `sessionStorage`。
 
 此后，客户端每次与服务器通信，都要带上这个 JWT。
 
 - 你可以把它放在 Cookie 里面自动发送，但是这样不能跨域，
   Cookie 存在跨域限制，不能在不同域名下共享。
-- 所以更好的做法是放在 HTTP 请求的头信息 Authorization 字段里面。
+- 所以更好的做法是放在 HTTP 请求的头信息 `Authorization` 字段里面。
   ```json
   Authorization: Bearer <token>
   ```
@@ -207,24 +207,26 @@ const express = require("express");
 const router = express.Router();
 
 const jwt = require("jsonwebtoken");
-const privateKey = require("./config").secretKey;
+const privateKey = require("./config").secretKey; // 私钥 盐 用于签署和验证JWT
 console.log(privateKey);
 
 router.post("/", (req, res) => {
   const { username } = req.body;
   console.log(username);
+  // 使用 jwt 生成 token 令牌
   const token = jwt.sign({ data: username }, privateKey, { expiresIn: "1h" });
 
   res.status(200).json({ token });
 });
 
 router.post("/getAuth", (req, res) => {
+  // 请求头 authorization 中带有 token
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(" ")[1];
 
   if (!token) {
-    // 如果没有提供 token，则返回 401 Unauthorized
-    return res.status(401).json({ error: "未提供身份验证令牌" });
+    // 如果没有提供 token，则返回 403 Unauthorized
+    return res.status(403).json({ error: "未提供身份验证令牌" });
   }
 
   // 验证 JWT
@@ -232,7 +234,7 @@ router.post("/getAuth", (req, res) => {
     if (err) {
       // JWT 验证失败
       console.error("JWT 验证失败:", err);
-      // 返回 403 Forbidden 或其他适当的错误响应
+      // 返回 403 Forbidden 没有权限 或其他适当的错误响应
       return res.status(403).json({ error: "身份验证失败" });
     } else {
       // JWT 验证成功，decoded 中包含解码后的 payload

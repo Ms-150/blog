@@ -1,6 +1,4 @@
-<!-- # Network -->
-
-## TCP
+# TCP
 
 TCP（Transmission Control Protocol，传输控制协议）是一种面向连接的、可靠的传输层协议。它在计算机网络中用于确保数据包按顺序、无错误地传输。
 三次握手和四次挥手
@@ -56,4 +54,3 @@ Client                Server
 一个开放源代码的网络协议分析器，用于捕获和分析网络数据包。
 
 [https://www.wireshark.org/](https://www.wireshark.org/)
-
