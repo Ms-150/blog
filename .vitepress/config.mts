@@ -77,6 +77,7 @@ export default defineConfig({
             { text: "跨域", link: "/start/cross-domain" },
             { text: "Vite", link: "/start/vite" },
             { text: "JWT", link: "/start/jwt" },
+            { text: "Router", link: "/start/router" },
             { text: "Express", link: "/start/express" },
             { text: "Network", link: "/start/network" },
             { text: "Security", link: "/start/security" },
