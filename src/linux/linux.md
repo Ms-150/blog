@@ -1,4 +1,4 @@
-# Linux 命令
+# Linux
 
 ## 目录
 

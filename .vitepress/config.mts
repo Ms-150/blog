@@ -48,8 +48,15 @@ export default defineConfig({
     },
     nav: [
       { text: "首页", link: "/" },
-      { text: "开始", link: "/start" },
-      { text: "Examples", link: "/examples/markdown-examples" },
+      { text: "全部", link: "/start/markdown" },
+      {
+        text: "集合",
+        items: [
+          { text: "HTTP", link: "/http/tcp" },
+          { text: "JS", link: "/js/ajax" },
+          { text: "Linux", link: "/linux/linux" },
+        ],
+      },
       { text: "关于", link: "/about" },
     ],
     darkModeSwitchLabel: "主题",
@@ -58,31 +65,91 @@ export default defineConfig({
       prev: "上一页",
       next: "下一页",
     },
-
     sidebar: {
       "/start": [
         {
           text: "开始",
+          collapsed: false,
           items: [
             { text: "Markdown", link: "/start/markdown" },
-            { text: "N", link: "/start/n" },
             { text: "虚拟机", link: "/start/virtual" },
-            { text: "Linux", link: "/start/linux" },
-            { text: "vi & vim", link: "/start/vi&vim" },
-            { text: "TCP", link: "/start/tcp" },
-            { text: "Ajax", link: "/start/ajax" },
             { text: "WebSocket", link: "/start/webSocket" },
-            { text: "Navigator.sendBeacon", link: "/start/navigator.sendBeacon" },
-            { text: "TSL/SSL", link: "/start/tsl&ssl" },
-            { text: "跨域", link: "/start/cross-domain" },
-            { text: "Vite", link: "/start/vite" },
+            {
+              text: "Navigator.sendBeacon",
+              link: "/start/navigator.sendBeacon",
+            },
             { text: "JWT", link: "/start/jwt" },
-            { text: "Router", link: "/start/router" },
             { text: "Express", link: "/start/express" },
-            { text: "Network", link: "/start/network" },
             { text: "Security", link: "/start/security" },
             { text: "Docker", link: "/start/docker" },
-            { text: "Nginx", link: "/start/nginx" },
+          ],
+        },
+        {
+          text: "HTTP",
+          collapsed: true,
+          items: [
+            { text: "TCP", link: "/http/tcp" },
+            { text: "TSL/SSL", link: "/http/tsl&ssl" },
+            { text: "Nginx", link: "/http/nginx" },
+          ],
+        },
+        {
+          text: "JS",
+          collapsed: true,
+          items: [
+            { text: "跨域", link: "/js/cross-domain" },
+            { text: "Ajax", link: "/js/ajax" },
+            { text: "N", link: "/js/n" },
+            { text: "Vite", link: "/js/vite" },
+            { text: "Router", link: "/js/router" },
+            { text: "Network", link: "/start/network" },
+          ],
+        },
+        {
+          text: "Linux",
+          collapsed: true,
+          items: [
+            { text: "Linux", link: "/linux/linux" },
+            { text: "vi & vim", link: "/linux/vi&vim" },
+          ],
+        },
+        {
+          text: "Examples",
+          collapsed: true,
+          items: [
+            { text: "Markdown Examples", link: "/examples/markdown-examples" },
+            { text: "Runtime API Examples", link: "/examples/api-examples" },
+          ],
+        },
+      ],
+      "/http": [
+        {
+          text: "HTTP",
+          items: [
+            { text: "TCP", link: "/http/tcp" },
+            { text: "TSL/SSL", link: "/http/tsl&ssl" },
+            { text: "Nginx", link: "/http/nginx" },
+          ],
+        },
+      ],
+      "/js": [
+        {
+          text: "JS",
+          items: [
+            { text: "跨域", link: "/js/cross-domain" },
+            { text: "Ajax", link: "/js/ajax" },
+            { text: "N", link: "/js/n" },
+            { text: "Vite", link: "/js/vite" },
+            { text: "Router", link: "/js/router" },
+          ],
+        },
+      ],
+      "/linux": [
+        {
+          text: "Linux",
+          items: [
+            { text: "Linux", link: "/linux/linux" },
+            { text: "vi & vim", link: "/linux/vi&vim" },
           ],
         },
       ],

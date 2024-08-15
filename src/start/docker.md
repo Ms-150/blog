@@ -18,8 +18,8 @@ Docker 是一个开源平台，旨在通过容器技术简化应用程序的开�
   一个文本文件，包含了一系列指令，用于构建 Docker 镜像。
 - Docker Compose
   用于定义和运行多容器 Docker 应用的工具。
-- 引擎 Docker Enginee
-  用于管理容器的核心服务，负责构建、运行和管理容器。
+- 集群 Docker Swarm
+  用于管理容器集群的原生编排工具。它允许你将多台 Docker 主机集群化，作为一个单一的虚拟 Docker 主机来管理和部署容器。
 
 ```bash
 docker
@@ -77,7 +77,7 @@ docker logs <容器名/ID>     # 查看容器日志
 ```bash
 docker volume   # 列出 数据卷相关命令
 
-docker create <数据卷名>    # 创建卷
+docker volume create <数据卷名>    # 创建卷
 
 docker volume ls           # 列出卷
 docker volume inspect      # 显示一个或多个卷的详细信息
@@ -132,7 +132,7 @@ CMD ["nginx", "-g", "daemon off;"]
 2. 构建
 
 ```bash
-docker build -t 镜像名 .
+docker build -f 路径/Dockerfile -t 镜像名 .
 ```
 
 3. 测试运行自定义镜像
@@ -178,7 +178,264 @@ vim /Users/ms/.docker/daemon.json
 ### 推送镜像
 
 ```bash
-docker login # 登陆
+docker login  # 登陆
 
-docker tag hello-world:latest 150337
+docker tag 镜像名:标签名 用户名/镜像名:标签名  # 标记镜像
+docker push 用户名/镜像名:标签名   # 上传
+
+docker logout # 退出
+# example
+docker tag hello-world:latest 150337/hello-world-test:latest
+docker push 150337/hello-world-test:latest
+```
+
+### 私有仓库搭建
+
+Docker 提供了一个官方的 `Registry` 镜像，你可以通过以下命令启动一个私有仓库
+
+```bash
+# 1. 搭建
+docker pull registry
+
+docker run -d -p 5555:5000 --name my-registry registry
+
+# or 挂载数据卷
+docker run -d -p 5555:5000 --name my_registry -v /var/lib/docker/registty:/var/lib/registry registry
+
+# http://localhost:5555/v2/
+
+# 2. 推送
+docker tag hello-world localhost:5555/hello
+docker push localhost:5555/hello
+
+# 3. 查看
+http://localhost:5555/v2/_catalog
+
+# 4. 拉取
+docker run -it --name hello-5555 localhost:5555/hello
+```
+
+#### 认证 授权
+
+1. 创建证书存储目录
+
+```bash
+mkdir -p /var/lib/docker/registry/certs   # 创建证书存储目录
+
+openssl genrsa -out registry.ket 2048     # 生成私钥
+openssl req -new -key ./registry.key -out registry.csr # 生成证书请求文件
+>>>
+Common Name (e.g. server FQDN or YOUR name) []:127.0.0.1  # 填写宿主机地址
+```
+
+2. 生成鉴权密码文件
+
+```bash
+brew install httpd
+
+htpasswd -Bbn root admin > /var/lib/docker/registry/auth/htpasswd # 鉴权密码文件
+# -B 指定 bcrypt 加密算法来加密密码 默认 md5
+# or
+htpasswd -c /var/lib/docker/registry/auth/htpasswd root
+```
+
+3. 重新运行容器
+
+```bash
+docker run -di -p 5555:5000 --name my_registry \
+-v /var/lib/docker/registry:/var/lib/registry \
+-v /var/lib/docker/registry/certs:/certs \
+-v /var/lib/docker/registry/auth:/auth \
+-e "REGISTRY_HTTP_TLS_CERTIFICATE=/certs/registry.crt" \
+-e "REGISTRY_HTTP_TLS_KEY=/certs/registry.key" \
+-e "REGISTRY_AUTH=htpasswd" \
+-e "REGISTRY_AUTH_HTPASSWD_REALM=Registry Realm" \
+-e "REGISTRY_AUTH_HTPASSWD_PATH=/auth/htpasswd" \
+registry:latest
+```
+
+4. 推送
+
+```bash
+docker tag hello-world 127.0.0.1:5555/hello   # tag
+docker push 127.0.0.1:5555/hello              # push
+>>>
+Using default tag: latest
+The push refers to repository [127.0.0.1:5555/hello]
+ac28800ec8bb: Preparing
+no basic auth credentials  # auth失败
+
+
+docker login 127.0.0.1:5555   # 登陆
+docker push 127.0.0.1:5555/hello  # push
+docker logout 127.0.0.1:5555  # 退出
+```
+
+## Network
+
+用于连接容器的基础设施。它可以让容器相互通信，或者与外部网络进行通信
+
+```bash
+docker network --help
+
+docker network ls   # 显示网络列表
+>>>
+NETWORK ID     NAME      DRIVER    SCOPE
+4db186d93eff   bridge    bridge    local
+4237426a6372   host      host      local
+924a0d5a5918   none      null      local
+
+```
+
+### 网络模式
+
+- 默认类型
+  | 类型 | | 备注 |
+  | ------ | -------------------------------------------------------------------------------------- | ---- |
+  | bridge | 每个容器连接到一个虚拟的内部桥接网络。容器可以通过容器名称或 IP 地址互相通信 | 默认 |
+  | host | 容器直接使用主机的网络栈，和主机共享网络命名空间。容器的 IP 地址和端口与主机完全相同。 | |
+  | none | 容器没有连接到任何网络。 | |
+
+```bash
+docker --network host centos # 指定网络模式
+```
+
+- container 网络模式
+
+允许一个容器共享另一个容器的网络栈。
+
+```bash
+docker run -di --name 容器名称1 busybox
+
+docker run -di --name 容器名称2 --network container:容器名称1 busybox
+```
+
+- 自定义网络
+  通过自定义网络，你可以更好地管理容器之间的通信，增强安全性，并配置特定的网络设置。
+
+```bash
+docker network create 自定义网络名    # 创建自定义网络
+docker network ls   # 展示全部网络
+docker network connect 自定义网络名 容器名      # 将容器连接到自定义网络
+docker network disconnect 自定义网络名 容器名   # 将容器断开自定义网络
+docker network rm 自定义网络名 # 删除自定义网络
+docker network prune         # 修剪 删除未使用的自定义网络
+
+docker network inspect 自定义网络名   # 检查自定义网络
+```
+
+## Compose 组成
+
+用于定义和运行多容器 Docker 应用程序的工具。它使用一个 YAML 文件来配置应用程序的服务，然后使用一个简单的命令来创建和启动所有服务。
+
+```bash
+docker-compose --version
+
+docker-compose up  # 创建并启动
+docker-compose down # 停止 并移除容器和网络
+```
+
+### usage
+
+```bash
+# 1. 创建 文件夹
+
+mkdir -p /var/lib/docker/docker-compose-nginx
+cd /var/lib/docker/docker-compose-nginx
+
+# 2. 创建 docker-compose.yml 文件
+vi docker-compose.yml
+>>>
+
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: custom_nginx
+    networks:
+      - custom_network
+    ports:
+      - "8080:80"
+
+networks:
+  custom_network:
+    driver: bridge
+
+# 3. 启动
+
+docker-compose up
+
+docker-compose down
+```
+
+## Swarm 集群
+
+Docker 内置的容器编排工具，允许你管理和协调在多个主机上运行的容器，使它们像在单个主机上运行一样工作。
+
+它将多个 Docker 主机聚合为一个虚拟的 Docker 主机，并自动调度容器的部署。
+
+### 基本概念
+
+1. Node 节点
+
+- Manager Node（管理节点）: 负责集群的管理和调度任务。它们分发工作负载给 Worker Nodes，并维护集群的状态。
+- Worker Node（工作节点）: 运行实际的容器工作负载，接收并执行从管理节点分发的任务。
+
+```bash
+docker swarm
+
+docker swarm init   # 初始化集群
+docker join         # 加入一个集群 作为 管理/工作 节点
+```
+
+2. Service（服务）
+   服务定义了要在 Swarm 中运行的应用程序，可以扩展以在多个容器中运行
+3. Task（任务）：
+   是一个服务的具体实例，运行在某个节点上的容器。
+4. Overlay Network（覆盖网络）：
+   Swarm 模式下的网络，通过该网络，服务可以跨越不同的节点进行通信。
+5. Swarm Cluster（集群）：
+   由一个或多个节点组成的集群，它们协同工作以部署和管理容器。
+
+### usage
+
+1. 初始化集群
+
+将当前节点设置为管理节点，并返回一个命令来加入其他节点。
+
+```bash
+docker swarm init   # 初始化集群
+```
+
+2. 加入工作节点
+
+在其他 Docker 主机上，使用 `docker swarm init` 命令返回的 `token` 来加入 Swarm 集群：
+
+```bash
+docker swarm join --token <token> <manager-ip>:2377
+```
+
+3. 创建服务
+
+在管理节点上，使用 `docker service create` 命令来部署服务：
+
+```bash
+docker service create --name my_web --replicas 3 -p 80:80 nginx
+```
+
+### 常用命令
+
+```bash
+docker service
+
+docker service scale my_web=5   # 扩展服务
+docker service ls       # 查看服务状态
+docker service ps my_web  # 查看服务详细信息
+
+docker service update --image nginx:latest my_web   # 更新服务
+docker service rm my_web # 删除服务
+
+docker swarm leave # 将工作节点从 Swarm 集群中移除，可以在该节点上运行
+docker swarm leave --force # 最后删除 管理节点
 ```
