@@ -375,7 +375,7 @@ systemctl status 服务名   # 查看服务状态
 top   # table of processes 动态显示系统中运行的进程
 ```
 
-#### ps (prscess status) 显示当前运行的进程
+#### ps (process status) 显示当前运行的进程
 
 ```bash
 ps    # Process Status 显示当前进程状态

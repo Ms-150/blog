@@ -2,7 +2,6 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: "/blog/",
   lang: "zh-CN",
   head: [
     // Android Chrome 标签栏图标
