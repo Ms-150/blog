@@ -2,9 +2,9 @@
 
 ## NPM
 
-[https://www.npmjs.com/](https://www.npmjs.com/)
+随同 NodeJS 一起安装的包管理工具，能解决 NodeJS 代码部署上的很多问题。
 
-#### NPM 是随同 NodeJS 一起安装的包管理工具，能解决 NodeJS 代码部署上的很多问题。
+[https://www.npmjs.com/](https://www.npmjs.com/)
 
 #### 常见的使用场景
 
@@ -12,42 +12,101 @@
 - 从 NPM 服务器下载并安装别人编写的命令行程序到本地使用。
 - 将自己编写的包或命令行程序上传到 NPM 服务器供别人使用。
 
-### npm 命令
+### npm 常用命令
 
 ```bash
-npm -v                  # 版本提示
-npm config list		    # 查看当前 npm 配置项
-npm install express     # 安装模块
-npm install express -g  # 全局安装模块
-npm uninstall express   # 卸载模块
-npm update express      # 更新模块
-npm list -g             # 查看所有下载的模块
+npm -v                 # 版本提示
+npm config list		   # 查看当前 npm 配置项
+npm install 包名        # 安装模块
+npm install 包名 -g     # 全局安装模块
+npm uninstall 包名      # 卸载模块
+npm update 包名         # 更新模块
+npm list -g            # 查看所有下载的模块
 
-npm root -g     # 查看全局包安装路径
+npm root -g            # 查看全局包安装路径
 >>>
 /usr/local/lib/node_modules
 ```
 
-#### 使用淘宝镜像的命令：
+### npm run 的原理
 
-```bash
-npm install -g cnpm --registry=https://registry.npm.taobao.org
+执行 `node_modules/.bin` 下的可执行文件
+
+1. 先从当前项目的 `node_modules/.bin` 去查找可执行命令 vite
+2. 如果没找到就去全局的 `node_modules` 去找可执行命令 vite
+3. 如果还没找到就去环境变量查找 再找不到就进行报错
+
+### npm 生命周期
+
+```sh
+"predev": "node prev.js",   # dev 之前运行
+"dev": "node index.js",     # 运行 dev
+"postdev": "node post.js"   # dev 之后运行
+```
+
+### 切换源
+
+```sh
+npm install cnpm -g --registry=https://registry.npmmirror.com
 
 # 查看当前源
 npm get registry
-# 临时用淘宝镜像安装依赖
-npm config set registry https://registry.npmjs.org
->
-npm config set registry https://registry.npm.taobao.org
+
+# 临时切换源下载 --registry=
+npm install express --registry=https://registry.npmmirror.com/
+
+# 用淘宝镜像安装依赖
+npm config set registry https://registry.npmmirror.com/
 ```
 
 ## NPX
 
-#### npm 从 5.2 版开始，增加了 npx 命令。
+npm 从 5.2 版开始，增加了 npx 命令。
 
-#### npx 可以检索 package.json 里安装的依赖版本，避免版本问题。
+它是 npm 的一个扩展，用于简化执行本地安装包的命令以及临时执行 npm 包。
 
-#### npx 可以指定 node 版本、命令的版本，解决了不同项目使用不同版本的命令的问题。
+### 优势
+
+1. 避免全局安装: npx 允许你执行 npm package ，而不需要你先全局安装它。
+2. 总是使用最新版本: 没有在本地安装相应的 npm package，npx 会从 npm 的 package 仓库中下载并使用最新版。
+3. 执行任意: 不仅可以执行在 package.json 的 scripts 部分定义的命令，还可以执行任何 npm package。
+
+### npm npx 的区别
+
+- `npm` Node.js 的包管理器，主要用于安装、管理和共享 JavaScript 包。
+- `npx` npm 的一个扩展工具，用于简化执行 npm 包中的命令。它可以立即运行本地安装或远程下载的 npm 包中的可执行文件，而不需要手动去指定路径或进行全局安装。
+
+### 发布 `npm包`
+
+```sh
+# 1. 注册
+npm useradd
+
+# 2. 登陆
+npm login
+
+# 3. 发布
+npm publish
+```
+
+### npm 私有仓库
+
+verdaccio
+
+一个开源的轻量级私有 npm 代理注册表，允许你托管自己的 npm 仓库并缓存来自官方 npm 仓库的包。
+
+[https://verdaccio.org/zh-cn/](https://verdaccio.org/zh-cn/)
+
+```sh
+npm install -g verdaccio
+
+verdaccio -h
+
+# 默认 4873 端口
+npm publish --registry http://localhost:4873/ # 发布包
+
+npm unpublish <package-name> --registry http://localhost:4873 # 从仓库删除包
+```
 
 ## Yarn
 
