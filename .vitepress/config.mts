@@ -54,9 +54,12 @@ export default defineConfig({
         items: [
           { text: "HTTP", link: "/http/tcp" },
           { text: "JS", link: "/js/ajax" },
+          { text: "Git", link: "/git/git" },
+          { text: "Node", link: "/node/node" },
+          { text: "SQL", link: "/sql/mysql" },
           { text: "Linux", link: "/linux/linux" },
           { text: "Docker", link: "/docker/docker" },
-          { text: "Node", link: "/node/node" },
+          { text: "Media", link: "/docker/pngquant" },
         ],
       },
       { text: "关于", link: "/about" },
@@ -105,6 +108,11 @@ export default defineConfig({
           ],
         },
         {
+          text: "Git",
+          collapsed: true,
+          items: [{ text: "Git", link: "/git/git" }],
+        },
+        {
           text: "Node",
           collapsed: true,
           items: [
@@ -112,6 +120,22 @@ export default defineConfig({
             { text: "npm&yarn&npx&pnpm", link: "/node/npm&yarn&npx&pnpm" },
             { text: "Express", link: "/node/express" },
             { text: "JWT", link: "/node/jwt" },
+          ],
+        },
+        {
+          text: "Media",
+          collapsed: true,
+          items: [
+            { text: "Pngquant", link: "/media/pngquant" },
+            { text: "ffmpeg", link: "/media/ffmpeg" },
+          ],
+        },
+        {
+          text: "SQL",
+          collapsed: true,
+          items: [
+            { text: "MySQL", link: "/sql/mysql" },
+            { text: "PostgreSQL", link: "/sql/postgresql" },
           ],
         },
         {
@@ -165,6 +189,34 @@ export default defineConfig({
           ],
         },
       ],
+      "/node": [
+        {
+          text: "Node",
+          items: [
+            { text: "Node", link: "/node/node" },
+            { text: "npm&yarn&npx&pnpm", link: "/node/npm&yarn&npx&pnpm" },
+            { text: "Express", link: "/node/express" },
+          ],
+        },
+      ],
+      "/media": [
+        {
+          text: "Media",
+          items: [
+            { text: "pngquant", link: "/media/pngquant" },
+            { text: "ffmpeg", link: "/media/ffmpeg" }
+          ],
+        },
+      ],
+      "/sql": [
+        {
+          text: "SQL",
+          items: [
+            { text: "MySQL", link: "/sql/mysql" },
+            { text: "PostgreSQL", link: "/sql/postgresql" },
+          ],
+        },
+      ],
       "/linux": [
         {
           text: "Linux",
@@ -180,16 +232,7 @@ export default defineConfig({
           items: [{ text: "Docker", link: "/docker/docker" }],
         },
       ],
-      "/node": [
-        {
-          text: "Node",
-          items: [
-            { text: "Node", link: "/node/node" },
-            { text: "npm&yarn&npx&pnpm", link: "/node/npm&yarn&npx&pnpm" },
-            { text: "Express", link: "/node/express" },
-          ],
-        },
-      ],
+      
       "/examples": [
         {
           text: "Examples",
