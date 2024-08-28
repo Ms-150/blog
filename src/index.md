@@ -53,4 +53,5 @@ features:
   - icon: 🛠️
     title: 工具集合
     details: Lorem ipsum...
+    link: /util/ohmyzsh
 ---

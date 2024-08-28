@@ -368,7 +368,7 @@ const {
   fork,
 } = require("child_process");
 
-// exec 异步 回调函数 默认返回 buffer 可以执行shell 命令 或者软件交互
+// exec 异步 回调函数 默认返回 buffer 可以执行 shell 命令 或者软件交互
 // execSync 同步 默认返回 buffer
 
 exec("node -v", (err, stdout, stderr) => {
@@ -443,11 +443,12 @@ process.on("message", (message) => {
   - Windows: 使用命名管道（Named Pipes）
   - POSIX: 使用 Unix 域套接字（Unix Domain Sockets）
 
-### 子进程 调用 ffmpeg
+### ffmpeg
 
-用于录制、转换和传输音频和视频的完整跨平台解决方案 [详见](../video/ffmpeg.md)
+用于录制、转换和传输音频和视频的完整跨平台解决方案。 [详见](../media/ffmpeg.md)
 
 ```js
+// child_process exec 调用 ffmpeg 处理视频
 const { execSync } = require("child_process");
 
 execSync(
@@ -460,6 +461,26 @@ execSync(
   // 子进程将直接继承父进程的标准输入（stdin）、标准输出（stdout）和标准错误（stderr）流。
   // 子进程的输出会直接显示在父进程的终端窗口中，就像是父进程自己输出的一样。
   { stdio: "inherit" }
+);
+```
+
+### pngquant
+
+用于压缩 PNG 图像的开源工具。[详见](../media/pngquant.md)
+
+```js
+// child_process exec 调用 pngquant 压缩 png 图片
+const { exec } = require("child_process");
+
+exec(
+  "pngquant input.png --quality 30-50 --speed 1 -o ouput.png ",
+  (error, stdout) => {
+    if (error) {
+      console.log(error);
+      return;
+    }
+    console.log(stdout);
+  }
 );
 ```
 
@@ -627,3 +648,339 @@ console.log(formattedString);
 | %d     | 数字（整数或浮点数） |
 | %j     | JSON                 |
 | %%     | 字符 %               |
+
+## fs
+
+fs 是 Node.js 中用于与文件系统进行交互的核心模块之一。它提供了多种方法来读取、写入、删除和操作文件与目录。
+fs 模块有同步（阻塞）和异步（非阻塞）两种接口，适应不同的编程需求。还可以通过 fs/promises 以 Promise 方式操作文件系统。
+
+### 编程方式
+
+- 异步方式: 通过回调函数处理结果，避免阻塞主线程。 // 非阻塞
+- 同步方式: 操作会阻塞，代码执行会等待文件操作完成。 // 阻塞
+- Promise 方式: 使用 fs/promises 提供的 Promise API，可结合 async/await 进行异步操作。
+
+## 文件操作 API
+
+### 读取文件
+
+- `fs.readFile(path[, options], callback)` // 异步读取文件
+- `fs.readFileSync(path[, options])` // 同步读取文件
+
+### 写入文件
+
+- `fs.writeFile(path, data[, options], callback)` // 异步写入文件
+- `fs.writeFileSync(path, data[, options])` // 同步写入文件
+
+### 追加文件
+
+如果文件不存在，会自动创建文件。
+
+- `fs.appendFile(path, data[, options], callback)` // 异步追加到文件的末尾
+- `fs.appendFileSync(path, data[, options])` // 同步追加到文件的末尾
+
+#### options 类型
+
+- `string | object`
+  - `encoding`: 文件编码，默认值为 `null`，返回 Buffer。
+  - `flag`: 文件系统标志，类型为 `string`。
+
+| 标志 | 英文        | 解释                                                                 |
+| ---- | ----------- | -------------------------------------------------------------------- |
+| `r`  | read        | 以读取模式打开文件。如果文件不存在则报错。                           |
+| `w`  | write       | 以写入模式打开文件。如果文件不存在则创建文件，文件已存在则清空。     |
+| `a`  | append      | 以追加模式打开文件。如果文件不存在则创建文件，数据写入文件末尾。     |
+| `x`  | exclusive   | 以独占写入模式打开文件。如果文件已存在则操作失败。                   |
+| `+`  | plus        | 结合使用 `r`、`w` 或 `a` 标志，表示可以同时进行读取和写入操作。      |
+| `s`  | synchronous | 同步模式，文件的所有操作（包括数据写入和文件元数据更新）都同步完成。 |
+
+### 文件流操作
+
+- `fs.createReadStream(path[, options])` // 创建可读文件流，适合处理大文件或逐块读取文件内容。
+  - `options` 选项:
+
+| 选项            | 类型      | 解释                                                                | 默认值    |
+| --------------- | --------- | ------------------------------------------------------------------- | --------- |
+| `flags`         | `string`  | 文件系统标志，'r' 表示以读取模式打开文件。                          | `'r'`     |
+| `encoding`      | `string`  | 指定字符编码，如 `'utf8'`。                                         |           |
+| `fd`            | `number`  | 文件描述符，指定文件的打开方式。如果指定了此选项，`path` 将被忽略。 |           |
+| `mode`          | `number`  | 文件模式（权限），仅在文件创建时生效。                              | `0o666`   |
+| `autoClose`     | `boolean` | 当流关闭时，自动关闭文件描述符。                                    | `true`    |
+| `start`         | `number`  | 指定文件读取的起始字节位置。                                        |           |
+| `end`           | `number`  | 指定文件读取的结束字节位置。                                        |           |
+| `highWaterMark` | `number`  | 控制流在读取过程中缓冲的字节数，默认是 64KB。                       | `64*1024` |
+
+- `fs.createWriteStream(path[, options])` // 创建可写文件流，适合逐块写入文件内容。
+  - `options` 选项:
+
+| 选项            | 类型      | 解释                                                                | 默认值    |
+| --------------- | --------- | ------------------------------------------------------------------- | --------- |
+| `flags`         | `string`  | 文件系统标志，'w' 表示以写入模式打开文件，'a' 表示追加模式。        | `'w'`     |
+| `encoding`      | `string`  | 指定字符编码，如 `'utf8'`。                                         | `'utf8'`  |
+| `fd`            | `number`  | 文件描述符，指定文件的打开方式。如果指定了此选项，`path` 将被忽略。 |           |
+| `mode`          | `number`  | 文件模式（权限），仅在文件创建时生效。                              | `0o666`   |
+| `autoClose`     | `boolean` | 当流关闭时，自动关闭文件描述符。                                    | `true`    |
+| `highWaterMark` | `number`  | 控制流在写入过程中缓冲的字节数，默认是 16KB。                       | `16*1024` |
+
+### 创建与删除目录
+
+- `fs.mkdirSync(path[, options])` // 同步创建目录
+- `fs.mkdir(path[, options], callback)` // 异步创建目录
+- `fs.rmSync(path[, options])` // 同步删除文件或目录
+- `fs.rm(path[, options], callback)` // 异步删除文件或目录
+
+### 重命名与移动文件
+
+- `fs.renameSync(oldPath, newPath)` // 同步重命名文件或移动文件
+
+### 文件监听
+
+- `fs.watch(path[, options], callback)` // 监听文件或目录的变化
+
+### 链接操作
+
+- `fs.link(path, path, callback)` // 异步创建硬链接
+- `fs.linkSync(path, path)` // 同步创建硬链接
+- `fs.symlink(path, path[, type], callback)` // 异步创建符号链接（软链接）
+- `fs.symlinkSync(path, path[, type])` // 同步创建符号链接（软链接）
+  - `type`: 可选，可以是 `'file'` 或 `'dir'`。
+
+#### example
+
+- readFile
+
+```js
+const fs = require("fs");
+const fs2 = require("fs/promises"); // promise 方式引入
+
+// readFile 异步
+fs.readFile("./example.txt", { encoding: "utf-8" }, (err, data) => {
+  console.log(data);
+});
+
+// readFileSync 同步
+try {
+  const data = fs.readFileSync("example.txt", "utf8");
+  console.log("文件内容:", data);
+} catch (err) {
+  console.error("读取文件出错:", err);
+}
+
+// promise 方式
+fs2
+  .readFile("./example.txt")
+  .then((data) => {
+    console.log(data.toString());
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+```
+
+- fs.writeFile
+
+```js
+fs.writeFile("./index.text", "index write", () => {});
+```
+
+- fs.appendFile
+
+```js
+fs.appendFile("./index.text", "index append", "utf-8", () => {});
+```
+
+- fs.createReadStream
+
+```js
+const fs = require("fs");
+
+const readStream = fs.createReadStream("./example.txt", { encoding: "utf8" });
+
+readStream.on("data", (chunk) => {
+  console.log("读取到的数据:", chunk);
+});
+
+readStream.on("end", () => {
+  console.log("文件读取完毕");
+});
+
+readStream.on("error", (err) => {
+  console.error("读取文件时出错:", err);
+});
+```
+
+- fs.createWriteStream
+
+```js
+const fs = require("fs");
+
+const lines = [
+  "这是写入的第一行内容。\n",
+  "这是写入的第二行内容。\n",
+  "这是写入的第三行内容。\n",
+];
+
+const writeStream = fs.createWriteStream("./output.txt", { encoding: "utf8" });
+
+lines.forEach((line) => {
+  writeStream.write(line);
+});
+
+writeStream.end();
+
+writeStream.on("finish", () => {
+  console.log("写入操作完成");
+});
+
+writeStream.on("error", (err) => {
+  console.error("写入文件时出错:", err);
+});
+```
+
+- fs.mkdirSync
+
+```js
+const fs = require("fs");
+
+// 创建文件夹
+fs.mkdirSync("./dir");
+
+// recursive 递归创建文件夹
+fs.mkdirSync("./dir_out/dir_inner", {
+  recursive: true,
+});
+```
+
+- fs.rmSync
+
+```js
+const fs = require("fs");
+
+// 删除文件夹
+fs.rmSync("./dir");
+
+// recursive 递归删除文件夹
+fs.rmSync("./dir_out", {
+  recursive: true,
+});
+```
+
+- fs.watch
+
+```js
+const fs = require("fs");
+
+// 监听文件变化
+fs.watch("./example.txt", (event, filename) => {
+  console.log(event, filename);
+});
+```
+
+- fs.link
+
+```js
+fs.link("index.text", "index2.text", (err) => {
+  if (err) throw err;
+  console.log("硬链接创建成功");
+});
+```
+
+- fs.linkSync
+
+```js
+try {
+  fs.linkSync("targetPath", "linkPath");
+  console.log("硬链接创建成功");
+} catch (err) {
+  console.error("创建硬链接时出错:", err);
+}
+```
+
+- fs.symlink
+
+```js
+fs.symlink("./index.text", "./index2.text", (err) => {
+  if (err) throw err;
+  console.log("软链接创建成功");
+});
+```
+
+- fs.symlinkSync
+
+```js
+try {
+  fs.symlinkSync("targetPath", "linkPath");
+  console.log("硬链接创建成功");
+} catch (err) {
+  console.error("创建硬链接时出错:", err);
+}
+```
+
+### 原理 libuv
+
+fs 底层使用 libuv。
+
+fs 源码是通过 C++ 层的 FSReqCallback 这个类 对 libuv 的 uv_fs_t 的一个封装，其实也就是将我们 fs 的参数透传给 libuv 层
+
+一个多平台支持库，主要用于提供异步 I/O 操作，它是 Node.js 的核心依赖之一。
+
+[https://libuv.org/](https://libuv.org/)
+
+#### example
+
+```c++
+// mkdir
+// 创建目录的异步操作函数，通过uv_fs_mkdir函数调用
+// 参数：
+// - loop: 事件循环对象，用于处理异步操作
+// - req: 文件系统请求对象，用于保存操作的状态和结果
+// - path: 要创建的目录的路径
+// - mode: 目录的权限模式 777 421
+// - cb: 操作完成后的回调函数
+int uv_fs_mkdir(uv_loop_t* loop,
+                uv_fs_t* req,
+                const char* path,
+                int mode,
+                uv_fs_cb cb) {
+  INIT(MKDIR);
+  PATH;
+  req->mode = mode;
+  if (cb != NULL)
+    if (uv__iou_fs_mkdir(loop, req))
+      return 0;
+  POST;
+}
+```
+
+#### 注意
+
+setImmediate 先执行，而不是 fs
+
+Node.js 读取文件 I/O 操作 都是使用 libuv 进行调度的
+
+而 setImmediate 是由 V8 进行调度的
+
+文件读取完成后 libuv 才会将 fs 的结果 推入 V8 的队列
+
+```js
+const fs = require("fs");
+
+fs.readFile(
+  "./index.txt",
+  {
+    encoding: "utf-8",
+    flag: "r",
+  },
+  (err, dataStr) => {
+    if (err) throw err;
+    console.log("fs");
+  }
+);
+
+setImmediate(() => {
+  console.log("setImmediate");
+});
+>>>
+setImmediate
+index
+```

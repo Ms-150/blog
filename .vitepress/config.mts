@@ -56,10 +56,11 @@ export default defineConfig({
           { text: "JS", link: "/js/ajax" },
           { text: "Git", link: "/git/git" },
           { text: "Node", link: "/node/node" },
+          { text: "Media", link: "/media/pngquant" },
           { text: "SQL", link: "/sql/mysql" },
           { text: "Linux", link: "/linux/linux" },
           { text: "Docker", link: "/docker/docker" },
-          { text: "Media", link: "/docker/pngquant" },
+          { text: "Util", link: "/util/ohmyzsh" },
         ],
       },
       { text: "关于", link: "/about" },
@@ -110,7 +111,10 @@ export default defineConfig({
         {
           text: "Git",
           collapsed: true,
-          items: [{ text: "Git", link: "/git/git" }],
+          items: [
+            { text: "Git", link: "/git/git" },
+            { text: "GitHubPages", link: "/git/github-pages" },
+          ],
         },
         {
           text: "Node",
@@ -152,6 +156,14 @@ export default defineConfig({
           items: [{ text: "Docker", link: "/docker/docker" }],
         },
         {
+          text: "Util",
+          collapsed: true,
+          items: [
+            { text: "Home Brew", link: "/util/homebrew" },
+            { text: "Oh My Zsh ", link: "/util/ohmyzsh" },
+          ],
+        },
+        {
           text: "Examples",
           collapsed: true,
           items: [
@@ -189,6 +201,15 @@ export default defineConfig({
           ],
         },
       ],
+      "/git": [
+        {
+          text: "Git",
+          items: [
+            { text: "Git", link: "/git/git" },
+            { text: "GitHubPages", link: "/git/github-pages" },
+          ],
+        },
+      ],
       "/node": [
         {
           text: "Node",
@@ -204,7 +225,7 @@ export default defineConfig({
           text: "Media",
           items: [
             { text: "pngquant", link: "/media/pngquant" },
-            { text: "ffmpeg", link: "/media/ffmpeg" }
+            { text: "ffmpeg", link: "/media/ffmpeg" },
           ],
         },
       ],
@@ -232,7 +253,15 @@ export default defineConfig({
           items: [{ text: "Docker", link: "/docker/docker" }],
         },
       ],
-      
+      "/util": [
+        {
+          text: "Util",
+          items: [
+            { text: "Home Brew", link: "/util/homebrew" },
+            { text: "Oh My Zsh", link: "/util/ohmyzsh" },
+          ],
+        },
+      ],
       "/examples": [
         {
           text: "Examples",
