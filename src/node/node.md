@@ -649,7 +649,7 @@ console.log(formattedString);
 | %j     | JSON                 |
 | %%     | 字符 %               |
 
-## fs
+## fs (File System)
 
 fs 是 Node.js 中用于与文件系统进行交互的核心模块之一。它提供了多种方法来读取、写入、删除和操作文件与目录。
 fs 模块有同步（阻塞）和异步（非阻塞）两种接口，适应不同的编程需求。还可以通过 fs/promises 以 Promise 方式操作文件系统。
@@ -983,4 +983,309 @@ setImmediate(() => {
 >>>
 setImmediate
 index
+```
+
+## crypto 加密
+
+提供了多种加密、解密、生成哈希、HMAC、签名和验证签名的方法。
+
+- ### 哈希
+
+哈希（Hashing）是一种将输入数据（无论长度如何）转换为固定长度字符串或数字的过程。这个过程使用哈希函数（Hash Function）来进行。哈希函数将输入的数据称为“消息”或“消息摘要”，通过一系列复杂的计算生成一个唯一的输出值，称为哈希值或哈希码。
+
+#### 常见的哈希算法
+
+- MD5（Message Digest Algorithm 5）：输出 128 位（16 字节）的哈希值。已被认为不再安全，容易发生碰撞。
+- SHA-1（Secure Hash Algorithm 1）：输出 160 位（20 字节）的哈希值，也已被认为不再安全。
+- SHA-256：输出 256 位（32 字节）的哈希值，是目前较为安全的选择之一，属于 SHA-2 系列。
+
+#### 使用场景
+
+1. 密码存储：传统上用于避免明文存储密码（不再推荐使用 MD5，因其易受碰撞攻击和暴力破解的影响）。
+2. 文件完整性验证：确保文件在传输或存储过程中未被篡改。
+
+#### example
+
+```js
+const crypto = require("crypto");
+
+const hash = crypto.createHash("sha256");
+hash.update("hello");
+console.log(hash.digest("hex"));
+// 2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824
+```
+
+- ### HAMC (Hash-based Message Authentication Code)
+
+使用一个密钥对消息进行加密，生成一个哈希值，用于消息完整性和身份验证。
+
+```js
+const crypto = require("crypto");
+
+const hmac = crypto.createHmac("sha256", "a secret");
+hmac.update("hello");
+console.log(hmac.digest("hex"));
+// f4e44dfb5af3e6399ff5f6c4d35faedeb7e339d2cc1a2c89eb42ff08464d09da
+```
+
+- ### 对称加密算法
+
+对称加密算法使用同一个密钥来进行加密和解密。它们通常用于数据保护和安全传输。
+
+#### 常见对称加密算法
+
+- AES：高级加密标准（Advanced Encryption Standard），目前最广泛使用的对称加密算法，适合大多数安全需求。
+- DES：数据加密标准（Data Encryption Standard），由于密钥长度较短，已被淘汰，通常使用其增强版 3DES。
+
+#### example
+
+```js
+const crypto = require("crypto");
+
+// 生成随机密钥和初始化向量
+const key = crypto.randomBytes(32);
+const iv = crypto.randomBytes(16);
+
+// 加密
+const cipher = crypto.createCipheriv("aes-256-cbc", key, iv);
+let encrypted = cipher.update("hello", "utf-8", "hex");
+
+encrypted += cipher.final("hex");
+console.log("Encrypted:", encrypted);
+
+// 解密
+const decipher = crypto.createDecipheriv("aes-256-cbc", key, iv);
+let decrypted = decipher.update(encrypted, "hex", "utf-8");
+
+decrypted += decipher.final("utf-8");
+console.log("Decrypted:", decrypted);
+```
+
+- ### 非对称加密
+
+使用一对密钥：公钥用于加密，私钥用于解密。它通常用于安全的密钥交换、数字签名和身份验证。
+
+#### 常见非对称加密算法
+
+- RSA：一种广泛使用的非对称加密算法，具有高安全性。RSA 密钥的长度通常为 2048 位或 4096 位。
+- DSA（Digital Signature Algorithm）：主要用于数字签名。
+
+```js
+const crypto = require("crypto");
+
+// 生成 RSA 密钥对
+const { publicKey, privateKey } = crypto.generateKeyPairSync("rsa", {
+  modulusLength: 2048,
+});
+
+// 使用公钥加密
+let encrypted = crypto.publicEncrypt(publicKey, Buffer.from("hello"));
+console.log("Encrypted:", encrypted.toString("hex"));
+
+// 使用私钥解密
+let decrypted = crypto.privateDecrypt(privateKey, encrypted);
+console.log("Decrypted:", decrypted.toString("utf-8"));
+```
+
+## 脚手架
+
+- commander 一个强大的命令行参数解析工具，适用于处理命令、选项和参数。
+- inquirer 一个用于与命令行用户进行交互的库，能够创建漂亮的命令行提示。
+- ora 一个用于在命令行中显示加载动画（spinner）的库，常用于显示异步操作的进度。
+- download-git-repo 一个用于从 Git 仓库（如 GitHub、GitLab 等）下载项目模板的库，常用于脚手架工具中自动拉取模板。
+
+### install
+
+```bash
+npm i commander inquirer ora download-git-repo
+```
+
+### 编写脚手架
+
+1. 自定义命令
+
+```js
+// cli.js
+#!/usr/bin/env node
+// Node.js 脚本的一个标准开头，它确保脚本可以在不同的环境和系统上找到正确的 Node.js 解释器来运行。
+
+console.log("mycli run");
+```
+
+2. 挂载自定义命令 -> 创建软连接 挂载到全局
+
+```diff
+# package.json
++ "bin": {
++    "mycli": "src/cli.js"
++  },
+```
+
+```bash
+npm link # 创建软连接 挂载到全局
+```
+
+3. 编写脚手架
+
+cli.js
+
+```js
+#!/usr/bin/env node
+// Node.js 脚本的一个标准开头，它确保脚本可以在不同的环境和系统上找到正确的 Node.js 解释器来运行。
+
+import { program } from "commander";
+import inquirer from "inquirer";
+import fs from "node:fs";
+import { checkPath, downloadTemp } from "./util.js";
+
+// console.log("mycli run");
+
+let package_json = fs.readFileSync("./package.json");
+package_json = JSON.parse(package_json);
+
+program.version(package_json.version);
+
+program
+  .command("create <projectName>")
+  .alias("c")
+  .description("创建项目")
+  .action((name) => {
+    console.log(name);
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "projectName",
+          message: "请输入项目名名称",
+          default: name,
+        },
+        { type: "confirm", name: "isTS", message: "是否启用 TS" },
+      ])
+      .then((res) => {
+        // console.log(res);
+        if (checkPath(res.projectName)) {
+          console.log("文件夹已存在");
+          return;
+        }
+        if (res.isTS) {
+          downloadTemp("ts", res.projectName);
+        } else {
+          downloadTemp("js", res.projectName);
+        }
+      })
+      .catch(() => {
+        console.error("操作被取消");
+        process.exit(1); // 处理异常后退出
+      });
+  });
+
+program.parse(process.argv);
+```
+
+util.js
+
+```js
+import fs from "fs";
+import download from "download-git-repo";
+import ora from "ora";
+
+export const checkPath = (path) => {
+  if (fs.existsSync(path)) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export const downloadTemp = (branch, name) => {
+  return new Promise((resolve, reject) => {
+    const spinner = ora("Loading...").start();
+    download(
+      `direct:https://gitee.com/chinafaker/vue-template.git#${branch}`,
+      name,
+      { clone: true },
+      function (err) {
+        if (err) reject(err);
+        resolve();
+        spinner.succeed("下载完成");
+      }
+    );
+  });
+};
+```
+
+## zlib
+
+用于提供文件压缩和解压缩功能，支持多种压缩算法，如 gzip 和 deflate。
+
+### 算法
+
+- gzip 算法 后缀 `.gz` 常用于 文件压缩
+- deflate 算法 后缀 `.flate` 常用于 网络传输
+
+### API
+
+- zlib.gzip 压缩
+- zlib.gunzip 解压
+
+- zlib.defalte 压缩
+- zlib.infalte 解压
+
+### example
+
+- 文件压缩与解压缩
+
+```js
+const zlib = require("node:zlib");
+const fs = require("fs");
+
+// gzip
+const readStream = fs.createReadStream("./example.txt");
+const writeStream = fs.createWriteStream("./example.txt.gz");
+
+readStream.pipe(zlib.createGzip()).pipe(writeStream);
+
+const readStream = fs.createReadStream("./example.txt.gz");
+const writeStream = fs.createWriteStream("./example1.txt");
+
+readStream.pipe(zlib.createGunzip()).pipe(writeStream);
+
+// deflate
+const readStream = fs.createReadStream("./example.txt");
+const writeStream = fs.createWriteStream("example.txt.flate");
+
+readStream.pipe(zlib.createDeflate()).pipe(writeStream);
+
+const readStream = fs.createReadStream("example.txt.flate");
+const writeStream = fs.createWriteStream("example2.txt");
+
+readStream.pipe(zlib.createInflate()).pipe(writeStream);
+```
+
+- HTTP 压缩与解压缩
+
+```js
+const fs = require("fs");
+const http = require("http");
+const zlib = require("zlib");
+
+// gzip
+const server = http.createServer((req, res) => {
+  const text = "123".repeat(10000);
+  res.setHeader("Content-Type", "text/plan;charset=utf-8");
+  res.setHeader("Content-Encoding", "gzip");
+  const result = zlib.gzipSync(text);
+  res.end(result);
+});
+
+// deflate
+const server = http.createServer((req, res) => {
+  const text = "123".repeat(10000);
+  res.setHeader("Content-Type", "text/plan;charset=utf-8");
+  res.setHeader("Content-Encoding", "deflate");
+  const result = zlib.deflateSync(text);
+  res.end(result);
+});
+
+server.listen(3000);
 ```

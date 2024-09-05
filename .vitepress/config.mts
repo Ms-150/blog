@@ -122,6 +122,8 @@ export default defineConfig({
           items: [
             { text: "Node", link: "/node/node" },
             { text: "npm&yarn&npx&pnpm", link: "/node/npm&yarn&npx&pnpm" },
+            { text: "Marked", link: "/node/marked" },
+            { text: "EJS", link: "/node/ejs" },
             { text: "Express", link: "/node/express" },
             { text: "JWT", link: "/node/jwt" },
           ],
@@ -216,6 +218,9 @@ export default defineConfig({
           items: [
             { text: "Node", link: "/node/node" },
             { text: "npm&yarn&npx&pnpm", link: "/node/npm&yarn&npx&pnpm" },
+            { text: "Marked", link: "/node/marked" },
+            { text: "EJS", link: "/node/ejs" },
+            
             { text: "Express", link: "/node/express" },
           ],
         },

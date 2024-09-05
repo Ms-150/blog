@@ -76,7 +76,7 @@ npm 从 5.2 版开始，增加了 npx 命令。
 - `npm` Node.js 的包管理器，主要用于安装、管理和共享 JavaScript 包。
 - `npx` npm 的一个扩展工具，用于简化执行 npm 包中的命令。它可以立即运行本地安装或远程下载的 npm 包中的可执行文件，而不需要手动去指定路径或进行全局安装。
 
-### 发布 `npm包`
+## 发布 `npm包`
 
 ```sh
 # 1. 注册
@@ -89,7 +89,7 @@ npm login
 npm publish
 ```
 
-### npm 私有仓库
+## npm 私有仓库
 
 verdaccio
 
