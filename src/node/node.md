@@ -1220,16 +1220,22 @@ export const downloadTemp = (branch, name) => {
 
 ### 算法
 
-- gzip 算法 后缀 `.gz` 常用于 文件压缩
-- deflate 算法 后缀 `.flate` 常用于 网络传输
+- `gzip` 算法 后缀 `.gz` 常用于 文件压缩
+- `deflate` 算法 后缀 `.flate` 常用于 网络传输 动态资源的压缩传输
+- `brotli` 算法 后缀 `.br` 常用于 网络传输 静态资源的压缩传输
 
 ### API
 
-- zlib.gzip 压缩
-- zlib.gunzip 解压
+它们都有 同步、异步版本
 
-- zlib.defalte 压缩
-- zlib.infalte 解压
+- zlib.gzip() 压缩
+- zlib.gunzip() 解压
+
+- zlib.defalte() 压缩
+- zlib.infalte() 解压
+
+- zlib.brotliCompress() 压缩
+- zlib.brotliDdcompress() 解压
 
 ### example
 
@@ -1260,6 +1266,17 @@ const readStream = fs.createReadStream("example.txt.flate");
 const writeStream = fs.createWriteStream("example2.txt");
 
 readStream.pipe(zlib.createInflate()).pipe(writeStream);
+
+// Brotli
+const inputBrotli = fs.createReadStream("./example.txt");
+const writeStream = fs.createWriteStream("./example.txt.br");
+
+inputBrotli.pipe(zlib.createBrotliCompress()).pipe(writeStream);
+
+const readStream = fs.createReadStream("./example.txt.br");
+const writeStream = fs.createWriteStream("./example-decompressed.txt");
+
+readStream.pipe(zlib.createBrotliDecompress()).pipe(writeStream);
 ```
 
 - HTTP 压缩与解压缩
@@ -1272,7 +1289,7 @@ const zlib = require("zlib");
 // gzip
 const server = http.createServer((req, res) => {
   const text = "123".repeat(10000);
-  res.setHeader("Content-Type", "text/plan;charset=utf-8");
+  res.setHeader("Content-Type", "text/plain;charset=utf-8");
   res.setHeader("Content-Encoding", "gzip");
   const result = zlib.gzipSync(text);
   res.end(result);
@@ -1281,11 +1298,261 @@ const server = http.createServer((req, res) => {
 // deflate
 const server = http.createServer((req, res) => {
   const text = "123".repeat(10000);
-  res.setHeader("Content-Type", "text/plan;charset=utf-8");
+  res.setHeader("Content-Type", "text/plain;charset=utf-8");
   res.setHeader("Content-Encoding", "deflate");
   const result = zlib.deflateSync(text);
   res.end(result);
 });
 
+const server = http.createServer((req, res) => {
+  const text = "123".repeat(10000);
+  res.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" });
+  res.setHeader("Content-Encoding", "br");
+  const result = zlib.brotliCompressSync(text);
+  res.end(result);
+});
+
 server.listen(3000);
+```
+
+## http
+
+构建 HTTP 服务器和客户端的核心模块之一。它允许你轻松创建服务器来处理 HTTP 请求和响应，也可以用来发起 HTTP 请求。
+
+```js
+const http = require("http");
+const url = require("url");
+
+http
+  .createServer((req, res) => {
+    const { method } = req;
+    const { pathname, query } = url.parse(req.url, true);
+    if (method == "GET") {
+      if (pathname === "/get") {
+        console.log(query);
+        res.setHeader("Content-Type", "text/plain; charset=utf-8");
+        res.statusCode = 200;
+        res.end(JSON.stringify(query));
+      }
+    } else if (method == "POST") {
+      if (pathname === "/login") {
+        let data = "";
+        req.on("data", (chunk) => {
+          data += chunk;
+        });
+
+        req.on("end", () => {
+          res.setHeader("Content-Type", "appliaction/json");
+
+          res.statusCode = 200;
+          res.end(data);
+        });
+      } else {
+        res.statusCode = 404;
+        res.end("404");
+      }
+    }
+  })
+  .listen(3000);
+```
+
+### 反向代理
+
+```bash
+npm i http-proxy-middleware
+```
+
+代理 80 /api 服务到 3000 端口
+
+```js
+// index.js
+const http = require("http");
+const url = require("url");
+const fs = require("fs");
+const { createProxyMiddleware } = require("http-proxy-middleware");
+const config = require("./proxy.config.js");
+
+http
+  .createServer((req, res) => {
+    const { pathname } = url.parse(req.url);
+    console.log(pathname);
+
+    const proxyList = Object.keys(config.server.proxy);
+    console.log(proxyList);
+
+    if (proxyList.includes(pathname)) {
+      const proxy = createProxyMiddleware(config.server.proxy[pathname]);
+      return proxy(req, res);
+    }
+    const html = fs.readFileSync("./index.html");
+
+    res.writeHead(200, { "Content-Type": "text/html" });
+    res.end(html);
+  })
+  .listen(80);
+
+// proxy.config.js
+module.exports = {
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000/",
+        changeOrgin: true,
+      },
+    },
+  },
+};
+
+// server.js
+const http = require("http");
+const url = require("url");
+
+http
+  .createServer((req, res) => {
+    const { pathname } = url.parse(req.url);
+
+    if (pathname == "/api") {
+      res.writeHead(200, { "Content-Type": "text/plan; charset=utf-8" });
+
+      res.end("proxy success");
+    }
+  })
+  .listen(3000, () => {
+    console.log("3000");
+  });
+```
+
+### 动静分离
+
+动静分离是一种在 Web 服务器架构中常用的优化技术，旨在提高网站的性能和可伸缩性。
+它基于一个简单的原则：将动态生成的内容（如动态网页、API 请求）与静态资源（如 HTML、CSS、JavaScript、图像文件）分开处理和分发。
+
+```bash
+npm i mime
+```
+
+```js
+import http from "node:http";
+import fs from "node:fs";
+import path from "node:path";
+import mime from "mime"; // 导入mime模块
+
+const server = http.createServer((req, res) => {
+  const { url, method } = req;
+
+  // 处理静态资源
+  if (method === "GET" && url.startsWith("/static")) {
+    const filePath = path.join(process.cwd(), url); // 获取文件路径
+    const mimeType = mime.getType(filePath); // 获取文件的MIME类型
+    console.log(mimeType); // 打印MIME类型
+
+    fs.readFile(filePath, (err, data) => {
+      // 读取文件内容
+      if (err) {
+        res.writeHead(404, {
+          "Content-Type": "text/plain", // 设置响应头为纯文本类型
+        });
+        res.end("not found"); // 返回404 Not Found
+      } else {
+        res.writeHead(200, {
+          "Content-Type": mimeType, // 设置响应头为对应的MIME类型
+          "Cache-Control": "public, max-age=3600", // 设置缓存控制头
+        });
+        res.end(data); // 返回文件内容
+      }
+    });
+  }
+
+  // 处理动态资源
+  if ((method === "GET" || method === "POST") && url.startsWith("/api")) {
+    // ...处理动态资源的逻辑
+  }
+});
+
+server.listen(80);
+```
+
+### 邮件服务
+
+- js-yaml 用于在 JavaScript 中解析和生成 YAML 数据
+- nodemailer 用于在 Node.js 环境下发送电子邮件的库，它支持多种传输方式，如 SMTP。
+
+```bash
+npm i js-yaml nodemailer
+```
+
+```js
+const yaml = require("js-yaml");
+const fs = require("node:fs");
+const http = require("node:http");
+const url = require("node:url");
+const nodemailer = require("nodemailer");
+
+// 加载邮箱配置信息
+const email = yaml.load(fs.readFileSync("email.yaml", "utf-8"));
+
+console.log(email);
+
+let transporter = nodemailer.createTransport({
+  host: "smtp.qq.com", // QQ 邮箱 SMTP 服务器
+  port: 465,
+  secure: true,
+  auth: {
+    user: email.emailconfig.user,
+    pass: email.emailconfig.pass,
+  },
+});
+
+http
+  .createServer((req, res) => {
+    const { method } = req;
+    const { pathname } = url.parse(req.url);
+
+    if (method === "POST" && pathname == "/post/email") {
+      let data = "";
+      req.on("data", (chunk) => {
+        data += chunk;
+      });
+
+      req.on("end", () => {
+        console.log("接收到的数据:", data);
+
+        try {
+          const postData = JSON.parse(data);
+          console.log("解析后的数据:", postData);
+
+          // 准备发送邮件
+          transporter.sendMail(
+            {
+              from: email.emailconfig.user, // 发件人
+              to: postData.user, // 收件人
+              subject: postData.subject, // 邮件主题
+              text: postData.content, // 邮件内容
+            },
+            (error, info) => {
+              if (error) {
+                console.error("邮件发送失败:", error);
+                res.statusCode = 500;
+                res.end(`邮件发送失败: ${error.toString()}`);
+              } else {
+                console.log("邮件发送成功:", info);
+                res.statusCode = 200;
+                res.end(`邮件发送成功: ${info.messageId}`);
+              }
+            }
+          );
+        } catch (err) {
+          console.error("数据解析错误:", err);
+          res.statusCode = 400;
+          res.end("请求数据格式错误");
+        }
+      });
+    } else {
+      res.statusCode = 404;
+      res.end("路径或方法不正确");
+    }
+  })
+  .listen(3000, () => {
+    console.log("服务器在端口 3000 上运行");
+  });
 ```

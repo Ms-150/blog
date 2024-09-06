@@ -17,7 +17,7 @@ npm install express
 npm install @types/express -D   # 声明文件
 ```
 
-## express app
+## usage
 
 ```js
 const express = require("express");
@@ -48,7 +48,24 @@ app.get("/about", (req, res) => {
 });
 ```
 
-### req.params / req.body
+### 参数解析
+
+1. 查询参数
+
+- req.query
+
+```js
+app.get('/search', (req, res) => {
+  const query = req.query.q;
+  res.send(`搜索内容: ${query}`);
+});
+>>>
+http://localhost:3000/search?q=express
+```
+
+2. 路由 参数
+
+- 动态参数 req.params / req.body
 
 ```js
 // 处理包含用户ID的路径的 GET 请求
@@ -56,6 +73,8 @@ app.get("/user/:id", (req, res) => {
   const userId = req.params.id;
   res.send(`User ID: ${userId}`);
 });
+>>>
+http://localhost:3000/user/123
 
 // 处理请求体数据 中间件
 app.use(express.json());
@@ -309,6 +328,55 @@ app.listen(port, () => {
 });
 ```
 
+5. 自定义中间件
+
+```bash
+npm i log4js
+```
+
+一个非常灵活的日志记录库，可以用于 Node.js 应用中进行日志管理。它提供了丰富的功能，包括日志输出到控制台、文件，支持不同级别的日志以及灵活的日志格式化。
+
+```js
+// /middleware/logger.js
+import log4js from "log4js";
+
+// 配置 log4js
+log4js.configure({
+  appenders: {
+    out: {
+      type: "stdout",
+      layout: {
+        type: "colored",
+      },
+    },
+    file: {
+      type: "file",
+      filename: "logs/server.log",
+    },
+  },
+  categories: {
+    default: {
+      appenders: ["out", "file"],
+      level: "debug",
+    },
+  },
+});
+
+// 创建 logger 实例
+const logger = log4js.getLogger("default");
+
+// 定义日志中间件
+const LoggerMiddleware = (req, res, next) => {
+  logger.debug(req.method, req.url);
+  next();
+};
+
+export default LoggerMiddleware;
+
+// 使用日志中间件
+app.use(LoggerMiddleware);
+```
+
 ## 模板引擎 EJS Handlebars.js Mustache
 
 ### utils
@@ -336,4 +404,41 @@ async function readFileExample() {
 
 // 调用异步函数
 readFileExample();
+```
+
+## 防盗链
+
+一种通过检查请求的来源（通常通过 Referer 头信息）来防止第三方网站未经授权直接链接和使用你服务器上资源的技术。通常用于图片、视频等静态资源，防止其他网站滥用你的资源带宽。
+
+```js
+import express from "express";
+
+const app = express();
+
+const whiteList = ["localhost"];
+
+const preventHotLinking = (req, res, next) => {
+  const referer = req.get("referer");
+
+  if (referer) {
+    try {
+      const { hostname } = new URL(referer);
+
+      if (!whiteList.includes(hostname)) {
+        return res.status(403).send("资源不存在");
+      }
+    } catch (err) {
+      return res.status(400).send("无效的请求");
+    }
+  }
+
+  next();
+};
+
+app.use(preventHotLinking);
+app.use(express.static("static"));
+
+app.listen(3000, () => {
+  console.log("服务器运行在 http://localhost:3000");
+});
 ```
