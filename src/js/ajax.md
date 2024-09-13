@@ -50,7 +50,7 @@ xhr.onreadystatechange = function () {
   }
 };
 
-// 发送请求
+// 4. 发送请求
 xhr.send();
 ```
 
@@ -91,8 +91,9 @@ xhr.send(data);
 
 - Event Handler 事件处理程序 形式
 
-```js
-// 监听上传进度
+::: code-group
+
+```js [监听上传进度]
 xhr.upload.onprogress = function (event) {
   if (event.lengthComputable) {
     console.log(
@@ -102,8 +103,9 @@ xhr.upload.onprogress = function (event) {
     console.log("上传进度未知");
   }
 };
+```
 
-// 监听下载进度
+```js [监听下载进度]
 xhr.onprogress = function (event) {
   if (event.lengthComputable) {
     console.log(
@@ -114,6 +116,8 @@ xhr.onprogress = function (event) {
   }
 };
 ```
+
+:::
 
 - Event Listener 事件监听器 形式
 
@@ -494,4 +498,3 @@ let formDataFromElement = new FormData(formElement);
 |     403     | Forbidden             | 服务器拒绝请求，用户没有访问权限   |
 |     404     | Not Found             | 请求的资源未找到                   |
 |     500     | Internal Server Error | 服务器内部错误                     |
-

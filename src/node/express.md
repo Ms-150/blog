@@ -442,3 +442,7 @@ app.listen(3000, () => {
   console.log("服务器运行在 http://localhost:3000");
 });
 ```
+
+::: warning
+`const referer = req.get("referer");` 直接打开资源 获取不到 referer
+:::

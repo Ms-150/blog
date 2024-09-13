@@ -8,15 +8,21 @@
 
 ## 模块化
 
-```json
-// package.json
-type: "commonjs" // 默认
-// require 导入，module.exports 或 exports 导出。
+::: code-group
 
-// or
+```json [commonjs]
+type: "commonjs" // 默认
+
+// require 导入，module.exports 或 exports 导出。
+```
+
+```json [module]
 type: "module"
+
 // import 导入，export 导出
 ```
+
+:::
 
 - 内置模块
 
@@ -34,18 +40,22 @@ const express = require('express');
 
 - 自定义模块
 
-```js
-// math.js
+::: code-group
+
+```js [math.js]
 function add(a, b) {
   return a + b;
 }
 
 module.exports = { add };
+```
 
-// app.js
+```js [app.js]
 const math = require("./math");
 console.log(math.add(2, 3)); // 输出: 5
 ```
+
+:::
 
 - JSON 模块
 
@@ -357,6 +367,10 @@ npm run start:prod  # 输出: The current environment is production
 
 - `fork()` // 创建一个新的 Node.js 子进程，并且通过建立 IPC（进程间通信）通道，使父进程和子进程能够相互发送消息。
 
+#### example
+
+- exec execSync
+
 ```js
 const {
   exec,
@@ -389,17 +403,19 @@ stdout.on("data", (data) => {
 stdout.on("close", (code) => {
   console.log(`子进程退出，退出码 ${code}`);
 });
+```
 
-// execFile
+- execFile
 
-// a.sh
-// #!/bin/bash
-// echo "start"
-// mkdir a
-// cd a
-// echo "console.log('print aaa')" > a.js
-// echo "end"
-// node ./a.js
+```js
+//  a.sh
+//  #!/bin/bash
+//  echo "start"
+//  mkdir a
+//  cd a
+//  echo "console.log('print aaa')" > a.js
+//  echo "end"
+//  node ./a.js
 
 execFile(path.resolve(__dirname, "./a.sh"), null, (error, stdout) => {
   if (error) {
@@ -408,10 +424,13 @@ execFile(path.resolve(__dirname, "./a.sh"), null, (error, stdout) => {
   }
   console.log(stdout.toString());
 });
+```
 
-// fork
+- fork
 
-// parent.js
+::: code-group
+
+```js [parent.js]
 // 创建子进程
 const child = fork("child.js");
 // 向子进程发送消息
@@ -420,8 +439,9 @@ child.send({ hello: "world" });
 child.on("message", (message) => {
   console.log("Received from child:", message);
 });
+```
 
-// child.js
+```js [child.js]
 process.on("message", (message) => {
   console.log("Received from parent:", message);
 
@@ -429,6 +449,8 @@ process.on("message", (message) => {
   process.send({ reply: "Hi parent!" });
 });
 ```
+
+:::
 
 #### 底层
 
@@ -1127,9 +1149,9 @@ npm link # 创建软连接 挂载到全局
 
 3. 编写脚手架
 
-cli.js
+::: code-group
 
-```js
+```js [cli.js]
 #!/usr/bin/env node
 // Node.js 脚本的一个标准开头，它确保脚本可以在不同的环境和系统上找到正确的 Node.js 解释器来运行。
 
@@ -1182,9 +1204,7 @@ program
 program.parse(process.argv);
 ```
 
-util.js
-
-```js
+```js [util.js]
 import fs from "fs";
 import download from "download-git-repo";
 import ora from "ora";
@@ -1213,6 +1233,8 @@ export const downloadTemp = (branch, name) => {
   });
 };
 ```
+
+:::
 
 ## zlib
 
@@ -1364,8 +1386,9 @@ npm i http-proxy-middleware
 
 代理 80 /api 服务到 3000 端口
 
-```js
-// index.js
+::: code-group
+
+```js [index.js]
 const http = require("http");
 const url = require("url");
 const fs = require("fs");
@@ -1390,8 +1413,9 @@ http
     res.end(html);
   })
   .listen(80);
+```
 
-// proxy.config.js
+```js [proxy.config.js]
 module.exports = {
   server: {
     proxy: {
@@ -1402,8 +1426,9 @@ module.exports = {
     },
   },
 };
+```
 
-// server.js
+```js [server.js]
 const http = require("http");
 const url = require("url");
 
@@ -1421,6 +1446,8 @@ http
     console.log("3000");
   });
 ```
+
+:::
 
 ### 动静分离
 
@@ -1556,3 +1583,64 @@ http
     console.log("服务器在端口 3000 上运行");
   });
 ```
+
+## 请求头 响应头
+
+### Access-Control-Allow-Origin 跨域
+
+::: code-group
+
+```js [允许所有域访问]
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+});
+```
+
+```js [指定域名访问]
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+  next();
+});
+```
+
+:::
+
+::: warning
+`res.setHeader("Access-Control-Allow-Origin", "*");`
+浏览器出于安全考虑，不会发送或接收 cookies，包括 session cookies。
+这是因为跨域请求中，cookies 被视为敏感信息，只有当 Access-Control-Allow-Origin 设置为具体的域时，浏览器才允许携带和共享 cookies。
+:::
+
+### Access-Control-Allow-Methods
+
+指定在跨域请求中允许的 HTTP 方法
+
+::: code-group
+
+```js [frontend]
+fetch("http://localhost:3000/patch", { method: "PATCH" })
+  .then((res) => res.json())
+  .then((res) => {
+    console.log(res);
+  });
+```
+
+```js [backend]
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET,POST,PUT,PATCH,DELETE,OPTIONS"
+  );
+  next();
+});
+```
+
+:::
+
+::: warning
+如果服务器没有明确设置 `Access-Control-Allow-Methods` 头，浏览器在处理跨域请求时会阻止非简单请求（例如 POST 以外的方法或者携带自定义请求头的请求），并且浏览器会返回跨域请求错误。
+
+[简单请求](../http/http.md#请求方法)
+:::

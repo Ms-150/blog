@@ -98,15 +98,15 @@ Markdown 编写的文档后缀为 .md, .markdown。
   ```
 
 - 脚注
-  
+
   正文[^1]。
 
   [^1]: 脚注的内容，鼠标滑入显示。
 
-
   ```md
   正文[^1]。
   [^1]: 脚注的内容,鼠标滑入显示。
+
   <!-- 注释// 脚注标识符必须是数字 -->
   ```
 
@@ -126,11 +126,11 @@ Markdown 编写的文档后缀为 .md, .markdown。
 
 ### 换行符
 
-+ 两个空格
-+ 空一行
-+ `<br>`
+- 两个空格
+- 空一行
+- `<br>`
 
-段落后面 **两个空格加回车** 表示换行  
+段落后面 **两个空格加回车** 表示换行
 
 **空一行** 表示新的段落
 
@@ -141,10 +141,8 @@ And this is the second line.</p>
 <p>This is the first line.<br>
 And this is the second line.</p>
 
-
 This is the first line.`  `
 And this is the second line.
-
 
 This is the first line.
 
@@ -154,8 +152,9 @@ And this is the second line.
 ### 列表语法
 
 #### 无序列表
-+ 第一项
-+ 第二项
+
+- 第一项
+- 第二项
 
 * 第一项
 * 第二项
@@ -164,8 +163,8 @@ And this is the second line.
 - 第二项
 
 ```md
-+ 第一项
-+ 第二项
+- 第一项
+- 第二项
 
 * 第一项
 * 第二项
@@ -175,7 +174,9 @@ And this is the second line.
 
 <!-- 注释 + - * 都可以  -->
 ```
+
 #### 有序列表
+
 1. 第一项
 2. 第二项
 
@@ -207,6 +208,7 @@ At the command prompt, type `nano`.
 ```md
 At the command prompt, type `nano`.
 ```
+
 ### 代码块
 
     `tab键` 也可以生成代码块
@@ -280,6 +282,7 @@ node app
 
   ```md
   ![alt 属性](https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png "百度")
+
   <!-- 注释// 无法调整高度与宽度 -->
   ```
 
@@ -292,22 +295,22 @@ node app
 ### 表格
 
 | 表头   | 展示   | 默认左对齐 |
-| ------ | ------ | ------- |
+| ------ | ------ | ---------- |
 | 单元格 | 单元格 | 单元格     |
 
 ```md
 | 表头   | 展示   | 默认左对齐 |
-| ------ | ------ | ------- |
+| ------ | ------ | ---------- |
 | 单元格 | 单元格 | 单元格     |
 ```
 
 | 表头   |   展示   | 对其方式 |
-| :----- | :------: | ----: |
+| :----- | :------: | -------: |
 | 左对齐 | 居中对齐 |   右对齐 |
 
 ```md
 | 表头   |   展示   | 对其方式 |
-| :----- | :------: | ----: |
+| :----- | :------: | -------: |
 | 左对齐 | 居中对齐 |   右对齐 |
 ```
 
@@ -318,29 +321,29 @@ node app
 - [ ] Contact the media
 
 ```md
-+ [x] Write the press release
-+ [ ] Update the website
-+ [ ] Contact the media
+- [x] Write the press release
+- [ ] Update the website
+- [ ] Contact the media
 ```
 
 ## 高级技巧
 
 支持的 **HTML 元素** 和 **转义字符 `\`**
 
-| 字符 | 元素 |
-| ---- | ---- |
-| `\`  | 反斜线 |
-| `` ` `` | 反引号 |
-| `* ` | 星号 |
-| `_`  | 下划线 |
-| `{}` | 花括号 |
-| `[]` | 方括号 |
-| `()` | 小括号 |
-| `#`  | 井号 |
-| `+`  | 加号 |
-| `-`  | 减号 |
-| `.`  | 英文句点 |
-| `!`  | 感叹号 |
+| 字符    | 元素     |
+| ------- | -------- |
+| `\`     | 反斜线   |
+| `` ` `` | 反引号   |
+| `* `    | 星号     |
+| `_`     | 下划线   |
+| `{}`    | 花括号   |
+| `[]`    | 方括号   |
+| `()`    | 小括号   |
+| `#`     | 井号     |
+| `+`     | 加号     |
+| `-`     | 减号     |
+| `.`     | 英文句点 |
+| `!`     | 感叹号   |
 
 // 注：复制到本地保存 .md 文件，vscode 打开 即可查看效果
 
@@ -353,3 +356,74 @@ node app
 X<sup>2</sup>
 H<sub>2</sub>O
 ```
+
+## 扩展
+
+### 代码组
+
+::: code-group
+
+```html [index.html]
+
+```
+
+```js [index.js]
+
+```
+
+:::
+
+### 自定义容器
+
+- 默认标题
+
+  ::: info
+  This is an info box.
+  :::
+
+  ::: tip
+  This is a tip.
+  :::
+
+  ::: warning
+  This is a warning.
+  :::
+
+  ::: danger
+  This is a dangerous warning.
+  :::
+
+  ::: details
+  This is a details block.
+  :::
+
+- 自定义标题
+
+  ::: danger STOP
+  危险区域，请勿继续
+  :::
+
+  ::: details 点我查看代码
+
+  ```js
+  console.log("Hello, VitePress!");
+  ```
+
+  :::
+
+### GitHub 风格的警报
+
+> [!NOTE]
+> 强调用户在快速浏览文档时也不应忽略的重要信息。
+
+> [!TIP]
+> 有助于用户更顺利达成目标的建议性信息。
+
+> [!IMPORTANT]
+> 对用户达成目标至关重要的信息。
+
+> [!WARNING]
+> 因为可能存在风险，所以需要用户立即关注的关键内容。
+
+> [!CAUTION]
+> 行为可能带来的负面影响。
