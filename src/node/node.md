@@ -1612,7 +1612,7 @@ app.use((req, res, next) => {
 这是因为跨域请求中，cookies 被视为敏感信息，只有当 Access-Control-Allow-Origin 设置为具体的域时，浏览器才允许携带和共享 cookies。
 :::
 
-### Access-Control-Allow-Methods
+### Access-Control-Allow-Methods 允许的请求方法
 
 指定在跨域请求中允许的 HTTP 方法
 
@@ -1643,4 +1643,111 @@ app.use((req, res, next) => {
 如果服务器没有明确设置 `Access-Control-Allow-Methods` 头，浏览器在处理跨域请求时会阻止非简单请求（例如 POST 以外的方法或者携带自定义请求头的请求），并且浏览器会返回跨域请求错误。
 
 [简单请求](../http/http.md#请求方法)
+:::
+
+### Access-Control-Allow-Headers
+
+- Content-Type 允许客户端指定请求体的类型
+- Authorization 允许客户端发送认证相关的头字段
+
+::: code-group
+
+```js [backend]
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
+});
+```
+
+```js [frontend]
+fetch("http://localhost:3000/post", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    hello: "post",
+  }),
+})
+  .then((res) => {
+    return res.json();
+  })
+  .then((res) => {
+    console.log(res);
+  });
+```
+
+:::
+
+### Access-Control-Expose-Headers 自定义响应头 暴露自定义响应头
+
+::: code-group
+
+```js [backend]
+app.post("/post", (req, res) => {
+  res.set({ "X-Custom-Header": "test" });
+  res.setHeader("Access-Control-Expose-Headers", "X-Custom-Header");
+  res.json({
+    code: 200,
+    hello: "post",
+  });
+});
+```
+
+```js [frontend]
+fetch("http://localhost:3000/post", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    hello: "post",
+  }),
+})
+  .then((res) => {
+    console.log(res.headers.get("X-Custom-Header"));
+    return res.json();
+  })
+  .then((res) => {
+    console.log(res);
+  });
+```
+
+:::
+
+### SSE 响应
+
+:::
+
+```js [frontend]
+const sse = new EventSource("http://localhost:3000/sse");
+
+sse.addEventListener("message", (e) => {
+  console.log(e.data);
+});
+
+// 接受自定义事件名称
+sse.addEventListener("xxx", (e) => {
+  console.log(e.data);
+});
+```
+
+```js [backend]
+app.get("/sse", (req, res) => {
+  res.setHeader("Content-Type", "text/event-stream");
+  res.status(200);
+
+  const intervalId = setInterval(() => {
+    res.write("event: xxx\n"); // 自定义事件名称 默认为 message
+    res.write("data: " + Date.now() + "\n\n");
+  }, 2000);
+
+  // 当客户端断开连接时清除定时器
+  req.on("close", () => {
+    clearInterval(intervalId);
+    res.end();
+  });
+});
+```
+
 :::

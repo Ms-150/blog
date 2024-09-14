@@ -303,3 +303,15 @@ Accept-Language: en-US
 ```
 
 :::
+
+### 预检请求
+
+指在进行跨源请求（CORS, Cross-Origin Resource Sharing）时，浏览器会先发出一个“预检”请求，以确定服务器是否允许实际的跨源请求。
+
+这通常发生在以下几种情况：
+
+1. 请求方法：使用了 PUT、DELETE 或其他非简单方法（如 POST 但不是 application/x-www-form-urlencoded、multipart/form-data 或 text/plain 类型），浏览器会发送一个预检请求。
+
+2. 自定义头部：请求中包含了自定义的头部（如 X-Custom-Header），浏览器会发送一个预检请求。
+
+3. 内容类型：请求中包含了非简单的内容类型（如 application/json），也会导致预检请求的产生。
