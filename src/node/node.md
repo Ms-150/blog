@@ -1717,7 +1717,7 @@ fetch("http://localhost:3000/post", {
 
 ### SSE 响应
 
-:::
+::: code-group
 
 ```js [frontend]
 const sse = new EventSource("http://localhost:3000/sse");
