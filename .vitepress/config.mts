@@ -105,6 +105,7 @@ export default defineConfig({
               link: "/js/navigator.sendBeacon",
             },
             { text: "Ajax", link: "/js/ajax" },
+            { text: "Mockjs", link: "/js/mockjs" },
             { text: "N", link: "/js/n" },
             { text: "Vite", link: "/js/vite" },
             { text: "Router", link: "/js/router" },
@@ -165,6 +166,7 @@ export default defineConfig({
           items: [
             { text: "Home Brew", link: "/util/homebrew" },
             { text: "Oh My Zsh ", link: "/util/ohmyzsh" },
+            { text: "Email", link: "/util/email" },
           ],
         },
         {
@@ -201,6 +203,7 @@ export default defineConfig({
               link: "/js/navigator.sendBeacon",
             },
             { text: "Ajax", link: "/js/ajax" },
+            { text: "Mockjs", link: "/js/mockjs" },
             { text: "N", link: "/js/n" },
             { text: "Vite", link: "/js/vite" },
             { text: "Router", link: "/js/router" },
@@ -224,7 +227,7 @@ export default defineConfig({
             { text: "npm&yarn&npx&pnpm", link: "/node/npm&yarn&npx&pnpm" },
             { text: "Marked", link: "/node/marked" },
             { text: "EJS", link: "/node/ejs" },
-            
+
             { text: "Express", link: "/node/express" },
           ],
         },
@@ -268,6 +271,7 @@ export default defineConfig({
           items: [
             { text: "Home Brew", link: "/util/homebrew" },
             { text: "Oh My Zsh", link: "/util/ohmyzsh" },
+            { text: "Email", link: "/util/email" },
           ],
         },
       ],

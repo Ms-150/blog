@@ -6,21 +6,27 @@
 
 ## 安装
 
-- [社区版下载](https://dev.mysql.com/downloads/mysql/)
+::: code-group
 
-```sh
-brew install mysql
+```sh [社区版下载]
+https://dev.mysql.com/downloads/mysql/
 ```
 
-## 启动数据库
-
-```sh
+```sh [brew]
+brew install mysql
 brew services start mysql
 ```
 
+```sh [docker]
+docker pull mysql
+docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -p3306:3306 -d mysql
+```
+
+:::
+
 ## 命令
 
-```bash
+```sh
 mysql -u root -p	# 连接mysql
 
 help; | ? | \h      # ; 必须写
@@ -32,22 +38,21 @@ exit; | \q          # 退出 sql
 
 ## 入门
 
-```bash
-# 显示所有库
-show databases;
-# 创建数据库 database_name
-create database database_name;
-# 进入数据库 database_name
-use database_name;
-# 创建数据表 table_name
-create table table_name(
-    id int not null auto_increment,
-    primary key(id)
+```sql
+-- 显示所有库
+SHOW DATABASES;
+-- 创建数据库 database_name
+CREATE DATABASE database_name;
+-- 进入数据库 database_name
+USE database_name;
+-- 创建数据表 table_name
+CREATE TABLE table_name(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 );
 >>>
 Query OK, 0 rows affected, 1 warning (0.01 sec)
 
-# 显示数据表头结构
+-- 显示数据表头结构
 desc table_name;
 >>>
 +-------+------+------+-----+---------+----------------+
@@ -57,39 +62,41 @@ desc table_name;
 +-------+------+------+-----+---------+----------------+
 1 row in set (0.01 sec)
 
-# 插入数据
-insert into table_name
+-- 插入数据
+INSERT INTO table_name
 (id, name)
-values
+VALUES
 (2, "lisi");
 ```
 
 ## 数据类型
 
-- #### 数值型
+- ### 数值类型
 
-  ##### 包含：整数型 浮点型
+  包含：整数型 浮点型
 
-  ##### 整数型：tinyint smallint mediumint int bigint
+  整数型：tinyint smallint mediumint int bigint
 
-  ##### 浮点型：float double decimal
+  浮点型：float double decimal
 
-  #### 1Bytes (字节) = 8bit (比特)
+  ::: tip
+  1Bytes (字节) = 8bit (比特)
+  :::
 
-  | 类型           | 大小                                          | 范围                                                  |      用途       |
-  | -------------- | --------------------------------------------- | ----------------------------------------------------- | :-------------: |
-  | tinyint        | 1Bytes                                        | (0,255)                                               |    大整数值     |
-  | smallint       | 2Bytes                                        | (0,65535)                                             |    大整数值     |
-  | mediumint      | 3Bytes                                        | (0,16777215)                                          |    大整数值     |
-  | int 或 integer | 4Bytes                                        | (0,4294967295)                                        |    大整数值     |
-  | bigint         | 8Bytes                                        | (0, 18446744073709551615)                             |   极大整数值    |
-  | float          | 4Bytes                                        | 0, (1.175494351E-38,3.402823466E+38)                  | 单精度 浮点数值 |
-  | double         | 8Bytes                                        | 0, (2.2250738585072014E-308，1.7976931348623157E+308) | 双精度 浮点数值 |
-  | decimal        | 对 DECIMAL(M,D) ，如果 M>D，为 M+2 否则为 D+2 | 依赖于 M 和 D 的值                                    |     小数值      |
+| 类型           | 大小                                          | 范围                                                  |      用途       |
+| -------------- | --------------------------------------------- | ----------------------------------------------------- | :-------------: |
+| tinyint        | 1Bytes                                        | (0,255)                                               |    大整数值     |
+| smallint       | 2Bytes                                        | (0,65535)                                             |    大整数值     |
+| mediumint      | 3Bytes                                        | (0,16777215)                                          |    大整数值     |
+| int 或 integer | 4Bytes                                        | (0,4294967295)                                        |    大整数值     |
+| bigint         | 8Bytes                                        | (0, 18446744073709551615)                             |   极大整数值    |
+| float          | 4Bytes                                        | 0, (1.175494351E-38,3.402823466E+38)                  | 单精度 浮点数值 |
+| double         | 8Bytes                                        | 0, (2.2250738585072014E-308，1.7976931348623157E+308) | 双精度 浮点数值 |
+| decimal        | 对 DECIMAL(M,D) ，如果 M>D，为 M+2 否则为 D+2 | 依赖于 M 和 D 的值                                    |     小数值      |
 
-- #### 日期和时间类型
+- ### 日期和时间类型
 
-  ##### 表示时间值的日期和时间：date time year datetime timestamp
+  表示时间值的日期和时间：date time year datetime timestamp
 
   | 类型      | 大小(Bytes) | 格式                | 用途                   |
   | --------- | :---------: | ------------------- | ---------------------- |
@@ -99,9 +106,9 @@ values
   | datetime  |      8      | YYYY-MM-DD hh:mm:ss | 混合日期和时间         |
   | timestamp |      4      | YYYY-MM-DD hh:mm:ss | 混合日期时间值，时间戳 |
 
-- #### 字符串类型
+- ### 字符串类型
 
-  #### char varchar tinytext text mediumtext longtext tinyblob blob mediumblob longblob
+  char varchar tinytext text mediumtext longtext tinyblob blob mediumblob longblob
 
   | 类型       | 大小 无符号(unsigned) | 用途                    |
   | ---------- | --------------------- | ----------------------- |
@@ -116,10 +123,12 @@ values
   | mediumblob | 0-16777215            | 二进制中等长度文本数据  |
   | longblob   | 0-4294967295          | 二进制极大长度文本数据  |
 
-#### 显示全部数据库 show database
+## 数据库操作
 
-```bash
-show databases;
+### 显示全部数据库 SHOW DATABASES
+
+```sql
+SHOW DATABASES;
 >>>
 +--------------------+
 | Database           |
@@ -132,20 +141,21 @@ show databases;
 4 rows in set (0.00 sec)
 ```
 
-### 创建数据库 create database
+### 创建数据库 CREATE DATABASE
 
-```bash
-create database [if not exists] 数据库名;
-# [if not exists] 防止创建已存在的新表而产生错误。
+```sql
+CREATE DATABASE [IF NOT EXISTS] database_name;
+-- [IF NOT EXISTS] 防止创建已存在的新表而产生错误。
+DEFAULT CHARACTER SET = 'utf8mb4';
 >>>
-mysql> create database database_name;
+mysql> CREATE DATABASE database_name;
 Query OK, 1 row affected (0.01 sec)
 ```
 
-### 查询当前所在数据库 select
+### 查看当前数据库 SELECT DATABASE()
 
-```bash
-select database();
+```sql
+SELECT DATABASE();
 >>>
 +--------------+
 | database()   |
@@ -155,41 +165,52 @@ select database();
 1 row in set (0.00 sec)
 ```
 
-### 删除数据库 drop databases
+### 删除数据库 DROP DATABASE
 
-```bash
-drop database [if not exists] database_name;
+```sql
+DROP DATABASE [IF NOT EXISTS] database_name;
 >>>
 Query OK, 0 rows affected (0.03 sec)
 ```
 
-### 选择数据苦 use
+### 选择数据库 USE
 
-```bash
-use database_name;
+```sql
+USE database_name;
 >>>
 Database changed
 ```
 
-### 创建数据表 create table
+## 数据表操作
 
-```bash
-create table [if not exists] 表名(
-    字段名 字段类型[(大小)] [unsigned] [not null][defalut_value] [auto_increment] [PRIMARY KEY],
-    # primary key(字段名)
-);
+### 查看所有表
 
-CREATE TABLE table_name (
-    id INT PRIMARY KEY,
-    name VARCHAR(50),
-    age INT
-);
+```sql
+SHOW TABLES;
+```
 
-# eg
-# id字段名 int整型 unsigned 无符号数 not null非空 auto_increment自增 default 1 默认值1 comment "年龄" 备注"年龄"
-# primary key(id) 主键 id
+### 创建数据表 CREATE TABLE
 
-create table table_name(
+```sql
+CREATE TABLE IF NOT EXISTS table_name (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    create_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    name VARCHAR(255) COMMENT '姓名',
+    age INT COMMENT '年龄'
+) COMMENT '表注释';
+
+-- 注释
+-- ID 字段名
+-- INT 整型
+-- UNSIGNED 无符号数 该列只能存储非负值。
+-- NOT NULL 非空
+-- AUTO_INCREMENT 自增
+-- DEFAULT 1 默认值 1
+-- PRIMARY key 主键
+-- COMMENT "年龄" 备注"年龄"
+
+
+CREATE TABLE table_name(
     id int not null auto_increment primary key,
     name char(100) not null,
     sex integer(1) not null default 0
@@ -198,10 +219,10 @@ create table table_name(
 Query OK, 0 rows affected (0.06 sec)
 ```
 
-### 查看表头结构
+### 查看表头结构 DESC
 
-```bash
-desc table_name;
+```sql
+DESC table_name;
 >>>
 +-------+------+------+-----+---------+----------------+
 | Field | Type | Null | Key | Default | Extra          |
@@ -211,115 +232,118 @@ desc table_name;
 1 row in set (0.02 sec)
 ```
 
-### 删除数据表
+### 删除数据表 DROP TABLE
 
-```bash
-drop table table_name;
+```sql
+DROP TABLE table_name;
 >>>
 Query OK, 0 rows affected (0.01 sec)
 ```
 
 ### ALTER 命令 修改数据表
 
-#### 添加列 add
+#### 修改表名
 
-```bash
-alert table table_name
-add
-name int not null;
+```sql
+ALTER TABLE old_table_name RENAME TO new_table_name;
+-- or
+RENAME TABLE old_table_name TO new_table_name;
 ```
 
-#### 修改列 modify
+#### 添加列 ADD
 
-```bash
-alter table table_name
-modify name char(10) not null default (1);
+```sql
+ALERT TABLE table_name
+ADD
+column_name column_type;
 ```
 
-#### 修改列名 change
+#### 删除列 DROP
 
-```bash
-alter table table_name
-change name newName varchar(20);
+```sql
+ALTER TABLE table_name
+DROP
+column_name;
 ```
 
-#### 删除列 drop
+#### 修改列 MODIFY
 
-```bash
-alter table table_name
-drop newName;
+```sql
+ALTER TABLE table_name
+MODIFY
+column_name new_column_type;
 ```
 
-#### 修改表名 rename to
+#### 重命名列 CHANGE
 
-```bash
-alter table table_name
-rename to table_name;
+```sql
+ALTER TABLE table_name
+CHANGE
+old_column_name new_column_name column_type;
 ```
 
-#### 添加约束
+#### 添加主键
 
-- 添加主键
-
-```bash
-alter table table_name
-add primary key (id);
+```sql
+ALTER TABLE table_name
+ADD PRIMARY KEY (id);
 ```
 
-### 插入数据 insert into
+## 数据操作
 
-```bash
-insert into table_name
-    (column_name1, value1)
-values
-    (column_name2, value2);
+### 插入数据 INSERT INTO
 
-# example
-insert into table_name
-    (id, name, age)
-values
-    (2, "lisi", 20);
+```sql
+INSERT INTO table_name
+(column_name1, value1)
+VALUES
+(column_name2, value2);
+
+-- example
+INSERT INTO table_name
+(id, name, age)
+VALUES
+(2, "lisi", 20);
 >>>
 Query OK, 1 row affected (0.01 sec)
 ```
 
-### 更新数据 update ... set
+### 删除数据 DELETE FROM
 
-```bash
-update table_name set   # update 表名 set
-column_name1=value, # 字段1=值,
-column_name2=value  # 字段1=值,
-[where id=1];       # 条件可选 不带条件 更新全部
+```sql
+DELETE FROM table_name
+[WHERE condition];        -- condition 条件可选 不带条件 删除全部
 
-# example
-update table_name set
+-- example
+DELETE FROM table_name
+WHERE age>18;
+```
+
+### 更新数据 UPDATE SET
+
+```sql
+UPDATE table_name SET   -- UPDATE 表名 SET
+column_name1=value,     -- 字段1=值,
+column_name2=value      -- 字段2=值,
+[WHERE condition];      -- condition 条件可选 不带条件 更新全部
+
+-- example
+UPDATE table_name SET
 id=3,
 age=16
-where id = 2;
+WHERE id = 2;
 ```
 
-### 删除数据 delete from
+### 查询数据 SELECT
 
-```bash
-delete from table_name
-[where age>18]; # 条件 不带条件 删除标中全部数据
+```sql
+-- 查询所有字段数据
+SELECT * FROM table_name;
+-- 查询特定字段数据 
+SELECT [DISTINCT] column_name FROM table_name; -- DISTINCT 去重
 
-# example
-delete from table_name
-where age>18;
-```
-
-### 查询数据 select
-
-```bash
-# 查询数据表的 所有字段数据
-select * from table_name;
-
-# 查询数据表id字段数据
-select [distinct] id from table_name; # distinct去重
-
-#example
-select distinct id from table_name;
+-- example
+SELECT DISTINCT id FROM table_name;
 >>>
 +----+------+
 | id | name |
@@ -330,40 +354,106 @@ select distinct id from table_name;
 2 rows in set (0.00 sec)
 ```
 
+#### 别名 AS
+
+```sql
+SELECT column_name AS alias_name
+FROM table_name;
+
+-- example 
+-- 把 user 表中的 id 列返回为 user_i
+SELECT id AS user_id
+FROM user;
+```
+
+#### 排序 ORDER BY
+
+- ASC 升序 默认
+- DESC 降序
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+ORDER BY column1 [ASC|DESC], column2 [ASC|DESC], ...;
+
+-- example
+SELECT id, name
+FROM user
+ORDER BY id DESC;
+```
+
+#### 限制查询结果 LIMIT
+
+1. 限制返回的行数
+
+```sql
+SELECT * FROM column1
+LIMIT number_of_rows;
+```
+
+2. 指定偏移量和返回的行数
+
+```sql
+SELECT column1, column2, ...
+FROM table_name
+LIMIT offset, number_of_rows;
+-- or
+
+```
+
+3. 结合排序
+
+```sql
+SELECT * FROM table_name
+ORDER BY column_name DESC
+LIMIT 10;
+```
+
+4. 实现分页
+
+```sql
+SELECT * FROM table_name
+ORDER BY column_name
+LIMIT 20 OFFSET 10;
+```
+
 #### 条件查询
 
-| 操作符          | 备注                            |
-| --------------- | ------------------------------- | ---- | --- |
-| =               |                                 |
-| != / <>         |                                 |      |
-| >               |                                 |
-| <               |                                 |
-| >=              |                                 |
-| <=              |                                 |
-| && / and        |                                 |
-|                 |                                 | / or |     |
-| !               |
-| is null         |                                 |
-| between 1 and 2 | [min,max]                       |
-| like \_ %       | 模糊查询 \_一个字符 %任意个字符 |
+| 操作符        | 备注                            |
+| ------------- | ------------------------------- |
+| `=`           | 等于                            |
+| `!=` / `<>`   | 不等于                          |
+| `>`           | 大于                            |
+| `<`           | 小于                            |
+| `>=`          | 大于或等于                      |
+| `<=`          | 小于或等于                      |
+| `AND`         | 逻辑与（AND 操作符）            |
+| `OR`          | 逻辑或（OR 操作符）             |
+| `NOT`         | 逻辑非（NOT 操作符）            |
+| `IS NULL`     | 检查值是否为 NULL               |
+| `IS NOT NULL` | 检查值是否不为 NULL             |
+| `BETWEEN`     | 在一个范围内（包含边界）        |
+| `LIKE`        | 模糊查询，使用通配符 `_` 和 `%` |
+| `IN`          | 匹配一组值中的任意一个          |
+| `NOT IN`      | 不匹配一组值中的任意一个        |
 
-```bash
-select * from table_name where age=18;
+```sql
+SELECT * FROM table_name WHERE age=18;
 
-select * from table_name where age is null;
-select * from table_name where age is not null;
+SELECT * FROM table_name WHERE age is null;
+SELECT * FROM table_name WHERE age is not null;
 
-select * from table_name where age >=13 && age <20;
-select * from table_name where age between 15 and 20;
+SELECT * FROM table_name WHERE age >=13 && age <20;
+SELECT * FROM table_name WHERE age between 15 and 20;
 
-select * from table_name where age>15 && name='zhangsan';
+SELECT * FROM table_name WHERE age>15 && name='zhangsan';
 
-select * from table_name where age=15 or age=18 or age=20;
-select * from table_name where age in(15,18,20);
+SELECT * FROM table_name WHERE age=15 or age=18 or age=20;
+SELECT * FROM table_name WHERE age in(15,18,20);
 
-# like 模糊查询
-select * from table_name where name like '____' # 查询4个字符长度
-select * from table_name where name like '%x'; # 查询末位为x
+-- like 模糊查询
+SELECT * FROM table_name WHERE name like '____' -- 查询4个字符长度
+SELECT * FROM table_name WHERE name like '%x';  -- 查询末位为x
 ```
 
 ### 聚合函数
@@ -372,27 +462,26 @@ select * from table_name where name like '%x'; # 查询末位为x
 
 所有 null 不参与聚合函数
 
-| 函数  | 作用   |
-| ----- | ------ |
-| count | 统计   |
-| max   | 最大   |
-| min   | 最小   |
-| avg   | 平均数 |
-| sum   | 求和   |
+| 函数    | 作用   |
+| ------- | ------ |
+| `count` | 统计   |
+| `max`   | 最大   |
+| `min`   | 最小   |
+| `avg`   | 平均数 |
+| `sum`   | 求和   |
 
-```bash
+```sql
+-- 统计 id 的总条数
+SELECT count(*) FROM table_name;
+SELECT count(id) FROM table_name;
 
-# 统计 id 的总条数
-select count(*) from table_name;
-select count(id) from table_name;
+SELECT avg(age) FROM table_name;
 
-select avg(age) from table_name;
+SELECT max(age) FROM table_name;
 
-select max(age) from table_name;
+SELECT min(age) FROM table_name;
 
-select min(age) from table_name;
-
-select sum(age) from table_name where name like '%f';
+SELECT sum(age) FROM table_name WHERE name like '%f';
 ```
 
 ### 分组查询 group by
@@ -406,14 +495,13 @@ where 和 having 的区别
   - where 不能 用聚合函数
   - having 能用聚合函数
 
-```bash
-# 性别分组查询
-select sex,count(sex) from table_name group by sex;
-# 性别分组 求年龄的平均值 别名as age_avg
-select sex, avg(age) as age_avg from table_name group by sex;
+```sql
+-- 性别分组查询
+SELECT sex,count(sex) from table_name group by sex;
+-- 性别分组 求年龄的平均值 别名as age_avg
+SELECT sex, avg(age) as age_avg from table_name group by sex;
 
 
-# 年龄>15 地址分组 地址数量>1 的地址 最终结果都是 分组的
-select address, count(address) from table_name where age>=15 group by address having count(address)>1;
-
+-- 年龄>15 地址分组 地址数量>1 的地址 最终结果都是 分组的
+SELECT address, count(address) from table_name where age>=15 group by address having count(address)>1;
 ```
