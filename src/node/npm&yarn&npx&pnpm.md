@@ -59,37 +59,28 @@ npm install express --registry=https://registry.npmmirror.com/
 npm config set registry https://registry.npmmirror.com/
 ```
 
-## NPX
+### 离线安装
 
-npm 从 5.2 版开始，增加了 npx 命令。
+- [搭建私服](#npm-私有仓库)
+- npm pack
 
-它是 npm 的一个扩展，用于简化执行本地安装包的命令以及临时执行 npm 包。
+#### npm pack xxx
 
-### 优势
+`npm pack` 命令将包打包成一个 tarball 文件。
 
-1. 避免全局安装: npx 允许你执行 npm package ，而不需要你先全局安装它。
-2. 总是使用最新版本: 没有在本地安装相应的 npm package，npx 会从 npm 的 package 仓库中下载并使用最新版。
-3. 执行任意: 不仅可以执行在 package.json 的 scripts 部分定义的命令，还可以执行任何 npm package。
+缺点： 每个包都需要手动打包
 
-### npm npx 的区别
+```bash
+# 1. npm pack xxx 生成 xxx-version.tgz 文件
+npm pack dayjs
+>>>
 
-- `npm` Node.js 的包管理器，主要用于安装、管理和共享 JavaScript 包。
-- `npx` npm 的一个扩展工具，用于简化执行 npm 包中的命令。它可以立即运行本地安装或远程下载的 npm 包中的可执行文件，而不需要手动去指定路径或进行全局安装。
-
-## 发布 `npm包`
-
-```sh
-# 1. 注册
-npm useradd
-
-# 2. 登陆
-npm login
-
-# 3. 发布
-npm publish
+dayjs-1.11.13.tgz
+# 2. 安装 xxx-version.tgz
+npm i path/xxx-version.tgz
 ```
 
-## npm 私有仓库
+### npm 私有仓库
 
 verdaccio
 
@@ -107,6 +98,36 @@ npm publish --registry http://localhost:4873/ # 发布包
 
 npm unpublish <package-name> --registry http://localhost:4873 # 从仓库删除包
 ```
+
+### 发布 `npm包`
+
+```sh
+# 1. 注册
+npm useradd
+
+# 2. 登陆
+npm login
+
+# 3. 发布
+npm publish
+```
+
+## NPX
+
+npm 从 5.2 版开始，增加了 npx 命令。
+
+它是 npm 的一个扩展，用于简化执行本地安装包的命令以及临时执行 npm 包。
+
+### 优势
+
+1. 避免全局安装: npx 允许你执行 npm package ，而不需要你先全局安装它。
+2. 总是使用最新版本: 没有在本地安装相应的 npm package，npx 会从 npm 的 package 仓库中下载并使用最新版。
+3. 执行任意: 不仅可以执行在 package.json 的 scripts 部分定义的命令，还可以执行任何 npm package。
+
+### npm npx 的区别
+
+- `npm` Node.js 的包管理器，主要用于安装、管理和共享 JavaScript 包。
+- `npx` npm 的一个扩展工具，用于简化执行 npm 包中的命令。它可以立即运行本地安装或远程下载的 npm 包中的可执行文件，而不需要手动去指定路径或进行全局安装。
 
 ## Yarn
 
@@ -128,8 +149,8 @@ yarn global dir     # 查看全局包安装路径
 ### 设置国内镜像源
 
 ```bash
-yarn config set registry https://registry.npm.taobao.org --global
-yarn config set disturl https://npm.taobao.org/dist --global
+yarn config set registry https://registry.npmmirror.com --global
+yarn config set disturl https://registry.npmmirror.com --global
 ```
 
 ### yarn 命令

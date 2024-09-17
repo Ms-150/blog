@@ -87,6 +87,7 @@ export default defineConfig({
           items: [
             { text: "TCP", link: "/http/tcp" },
             { text: "HTTP", link: "/http/http" },
+            { text: "DNS", link: "/http/dns" },
             { text: "TSL/SSL", link: "/http/tsl&ssl" },
             { text: "Network", link: "/http/network" },
             { text: "Security", link: "/http/security" },
@@ -181,6 +182,7 @@ export default defineConfig({
           items: [
             { text: "TCP", link: "/http/tcp" },
             { text: "HTTP", link: "/http/http" },
+            { text: "DNS", link: "/http/dns" },
             { text: "TSL/SSL", link: "/http/tsl&ssl" },
             { text: "Network", link: "/http/network" },
             { text: "Security", link: "/http/security" },
