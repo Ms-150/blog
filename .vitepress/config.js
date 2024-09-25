@@ -1,303 +1,432 @@
 import { defineConfig } from "vitepress";
 
-// https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: "/blog",
-  lang: "zh-CN",
-  head: [
-    // Android Chrome 标签栏图标
+  "base": "/blog",
+  "lang": "zh-CN",
+  "head": [
     [
       "link",
       {
-        rel: "icon",
-        href: "/blog/favicon/android-chrome-192x192.png",
-        sizes: "192x192",
-      },
+        "rel": "icon",
+        "href": "/blog/favicon/android-chrome-192x192.png",
+        "sizes": "192x192"
+      }
     ],
     [
       "link",
       {
-        rel: "icon",
-        href: "/blog/favicon/android-chrome-512x512.png",
-        sizes: "512x512",
-      },
-    ],
-    // Apple Touch 图标（用于 iOS 设备）
-    [
-      "link",
-      { rel: "apple-touch-icon", href: "/blog/favicon/apple-touch-icon.png" },
-    ],
-    // Favicon 标签栏图标
-    [
-      "link",
-      { rel: "icon", href: "/blog/favicon/favicon-32x32.png", sizes: "32x32" },
+        "rel": "icon",
+        "href": "/blog/favicon/android-chrome-512x512.png",
+        "sizes": "512x512"
+      }
     ],
     [
       "link",
-      { rel: "icon", href: "/blog/favicon/favicon-16x16.png", sizes: "16x16" },
+      {
+        "rel": "apple-touch-icon",
+        "href": "/blog/favicon/apple-touch-icon.png"
+      }
     ],
-    // 兼容旧版本浏览器的 Favicon
-    ["link", { rel: "shortcut icon", href: "/blog/favicon/favicon.ico" }],
+    [
+      "link",
+      {
+        "rel": "icon",
+        "href": "/blog/favicon/favicon-32x32.png",
+        "sizes": "32x32"
+      }
+    ],
+    [
+      "link",
+      {
+        "rel": "icon",
+        "href": "/blog/favicon/favicon-16x16.png",
+        "sizes": "16x16"
+      }
+    ],
+    [
+      "link",
+      {
+        "rel": "shortcut icon",
+        "href": "/blog/favicon/favicon.ico"
+      }
+    ]
   ],
-  title: "🌕🌖🌗🌘🌑🌒🌓🌔's Blog",
-  description: "A VitePress Site",
-  themeConfig: {
-    // https://vitepress.dev/reference/default-theme-config
-    search: {
-      provider: "local",
+  "title": "🌕🌖🌗🌘🌑🌒🌓🌔's Blog",
+  "description": "A VitePress Site",
+  "themeConfig": {
+    "search": {
+      "provider": "local"
     },
-    nav: [
-      { text: "首页", link: "/" },
-      { text: "全部", link: "/start/markdown" },
+    "nav": [
       {
-        text: "集合",
-        items: [
-          { text: "HTTP", link: "/http/tcp" },
-          { text: "JS", link: "/js/ajax" },
-          { text: "Git", link: "/git/git" },
-          { text: "Node", link: "/node/node" },
-          { text: "Media", link: "/media/pngquant" },
-          { text: "SQL", link: "/sql/mysql" },
-          { text: "Linux", link: "/linux/linux" },
-          { text: "Docker", link: "/docker/docker" },
-          { text: "Util", link: "/util/ohmyzsh" },
-        ],
+        "text": "首页",
+        "link": "/"
       },
-      { text: "关于", link: "/about" },
+      {
+        "text": "全部",
+        "link": "/start/markdown"
+      },
+      {
+        "text": "集合",
+        "items": [
+          {
+            "text": "HTTP",
+            "link": "/http/tcp"
+          },
+          {
+            "text": "JS",
+            "link": "/js/ajax"
+          },
+          {
+            "text": "Git",
+            "link": "/git/git"
+          },
+          {
+            "text": "Node",
+            "link": "/node/node"
+          },
+          {
+            "text": "Media",
+            "link": "/media/pngquant"
+          },
+          {
+            "text": "SQL",
+            "link": "/sql/mysql"
+          },
+          {
+            "text": "Linux",
+            "link": "/linux/linux"
+          },
+          {
+            "text": "Docker",
+            "link": "/docker/docker"
+          },
+          {
+            "text": "Util",
+            "link": "/util/ohmyzsh"
+          }
+        ]
+      },
+      {
+        "text": "关于",
+        "link": "/about"
+      }
     ],
-    darkModeSwitchLabel: "主题",
-    sidebarMenuLabel: "菜单列表",
-    docFooter: {
-      prev: "上一页",
-      next: "下一页",
+    "darkModeSwitchLabel": "主题",
+    "sidebarMenuLabel": "菜单列表",
+    "docFooter": {
+      "prev": "上一页",
+      "next": "下一页"
     },
-    sidebar: {
-      "/start": [
+    "sidebar": {
+      "/about/": [
         {
-          text: "开始",
-          collapsed: false,
-          items: [
-            { text: "Markdown", link: "/start/markdown" },
-            { text: "虚拟机", link: "/start/virtual" },
-          ],
-        },
-        {
-          text: "HTTP",
-          collapsed: true,
-          items: [
-            { text: "TCP", link: "/http/tcp" },
-            { text: "HTTP", link: "/http/http" },
-            { text: "DNS", link: "/http/dns" },
-            { text: "TSL/SSL", link: "/http/tsl&ssl" },
-            { text: "Network", link: "/http/network" },
-            { text: "Security", link: "/http/security" },
-            { text: "WebSocket", link: "/http/webSocket" },
-            { text: "Nginx", link: "/http/nginx" },
-          ],
-        },
-        {
-          text: "JS",
-          collapsed: true,
-          items: [
-            { text: "跨域", link: "/js/cross-domain" },
+          "text": "about",
+          "collapsed": false,
+          "items": [
             {
-              text: "Navigator.sendBeacon",
-              link: "/js/navigator.sendBeacon",
-            },
-            { text: "Ajax", link: "/js/ajax" },
-            { text: "Mockjs", link: "/js/mockjs" },
-            { text: "N", link: "/js/n" },
-            { text: "Vite", link: "/js/vite" },
-            { text: "Router", link: "/js/router" },
-          ],
-        },
-        {
-          text: "Git",
-          collapsed: true,
-          items: [
-            { text: "Git", link: "/git/git" },
-            { text: "GitHubPages", link: "/git/github-pages" },
-          ],
-        },
-        {
-          text: "Node",
-          collapsed: true,
-          items: [
-            { text: "Node", link: "/node/node" },
-            { text: "npm&yarn&npx&pnpm", link: "/node/npm&yarn&npx&pnpm" },
-            { text: "Marked", link: "/node/marked" },
-            { text: "EJS", link: "/node/ejs" },
-            { text: "Express", link: "/node/express" },
-            { text: "JWT", link: "/node/jwt" },
-          ],
-        },
-        {
-          text: "Media",
-          collapsed: true,
-          items: [
-            { text: "Pngquant", link: "/media/pngquant" },
-            { text: "ffmpeg", link: "/media/ffmpeg" },
-          ],
-        },
-        {
-          text: "SQL",
-          collapsed: true,
-          items: [
-            { text: "MySQL", link: "/sql/mysql" },
-            { text: "PostgreSQL", link: "/sql/postgresql" },
-          ],
-        },
-        {
-          text: "Linux",
-          collapsed: true,
-          items: [
-            { text: "Linux", link: "/linux/linux" },
-            { text: "vi & vim", link: "/linux/vi&vim" },
-          ],
-        },
-        {
-          text: "Docker",
-          collapsed: true,
-          items: [{ text: "Docker", link: "/docker/docker" }],
-        },
-        {
-          text: "Util",
-          collapsed: true,
-          items: [
-            { text: "Home Brew", link: "/util/homebrew" },
-            { text: "Oh My Zsh ", link: "/util/ohmyzsh" },
-            { text: "Email", link: "/util/email" },
-          ],
-        },
-        {
-          text: "Examples",
-          collapsed: true,
-          items: [
-            { text: "Markdown Examples", link: "/examples/markdown-examples" },
-            { text: "Runtime API Examples", link: "/examples/api-examples" },
-          ],
-        },
+              "text": "index",
+              "link": "/about/index"
+            }
+          ]
+        }
       ],
-      "/http": [
+      "/docker/": [
         {
-          text: "HTTP",
-          items: [
-            { text: "TCP", link: "/http/tcp" },
-            { text: "HTTP", link: "/http/http" },
-            { text: "DNS", link: "/http/dns" },
-            { text: "TSL/SSL", link: "/http/tsl&ssl" },
-            { text: "Network", link: "/http/network" },
-            { text: "Security", link: "/http/security" },
-            { text: "WebSocket", link: "/http/webSocket" },
-            { text: "Nginx", link: "/http/nginx" },
-          ],
-        },
-      ],
-      "/js": [
-        {
-          text: "JS",
-          items: [
-            { text: "跨域", link: "/js/cross-domain" },
+          "text": "docker",
+          "collapsed": false,
+          "items": [
             {
-              text: "Navigator.sendBeacon",
-              link: "/js/navigator.sendBeacon",
+              "text": "docker",
+              "link": "/docker/docker"
+            }
+          ]
+        }
+      ],
+      "/examples/": [
+        {
+          "text": "examples",
+          "collapsed": false,
+          "items": [
+            {
+              "text": "api-examples",
+              "link": "/examples/api-examples"
             },
-            { text: "Ajax", link: "/js/ajax" },
-            { text: "Mockjs", link: "/js/mockjs" },
-            { text: "N", link: "/js/n" },
-            { text: "Vite", link: "/js/vite" },
-            { text: "Router", link: "/js/router" },
-          ],
-        },
+            {
+              "text": "markdown-examples",
+              "link": "/examples/markdown-examples"
+            }
+          ]
+        }
       ],
-      "/git": [
+      "/git/": [
         {
-          text: "Git",
-          items: [
-            { text: "Git", link: "/git/git" },
-            { text: "GitHubPages", link: "/git/github-pages" },
-          ],
-        },
+          "text": "git",
+          "collapsed": false,
+          "items": [
+            {
+              "text": "git",
+              "link": "/git/git"
+            },
+            {
+              "text": "github-pages",
+              "link": "/git/github-pages"
+            }
+          ]
+        }
       ],
-      "/node": [
+      "/http/": [
         {
-          text: "Node",
-          items: [
-            { text: "Node", link: "/node/node" },
-            { text: "npm&yarn&npx&pnpm", link: "/node/npm&yarn&npx&pnpm" },
-            { text: "Marked", link: "/node/marked" },
-            { text: "EJS", link: "/node/ejs" },
-
-            { text: "Express", link: "/node/express" },
-          ],
-        },
+          "text": "http",
+          "collapsed": false,
+          "items": [
+            {
+              "text": "dns",
+              "link": "/http/dns"
+            },
+            {
+              "text": "http",
+              "link": "/http/http"
+            },
+            {
+              "text": "network",
+              "link": "/http/network"
+            },
+            {
+              "text": "nginx",
+              "link": "/http/nginx"
+            },
+            {
+              "text": "security",
+              "link": "/http/security"
+            },
+            {
+              "text": "tcp",
+              "link": "/http/tcp"
+            },
+            {
+              "text": "tsl&ssl",
+              "link": "/http/tsl&ssl"
+            },
+            {
+              "text": "webSocket",
+              "link": "/http/webSocket"
+            }
+          ]
+        }
       ],
-      "/media": [
+      "/js/": [
         {
-          text: "Media",
-          items: [
-            { text: "pngquant", link: "/media/pngquant" },
-            { text: "ffmpeg", link: "/media/ffmpeg" },
-          ],
-        },
+          "text": "js",
+          "collapsed": false,
+          "items": [
+            {
+              "text": "ajax",
+              "link": "/js/ajax"
+            },
+            {
+              "text": "amis",
+              "link": "/js/amis"
+            },
+            {
+              "text": "cross-domain",
+              "link": "/js/cross-domain"
+            },
+            {
+              "text": "mockjs",
+              "link": "/js/mockjs"
+            },
+            {
+              "text": "n",
+              "link": "/js/n"
+            },
+            {
+              "text": "navigator.sendBeacon",
+              "link": "/js/navigator.sendBeacon"
+            },
+            {
+              "text": "router",
+              "link": "/js/router"
+            },
+            {
+              "text": "vite",
+              "link": "/js/vite"
+            }
+          ]
+        }
       ],
-      "/sql": [
+      "/linux/": [
         {
-          text: "SQL",
-          items: [
-            { text: "MySQL", link: "/sql/mysql" },
-            { text: "PostgreSQL", link: "/sql/postgresql" },
-          ],
-        },
+          "text": "linux",
+          "collapsed": false,
+          "items": [
+            {
+              "text": "ftp",
+              "link": "/linux/ftp"
+            },
+            {
+              "text": "linux",
+              "link": "/linux/linux"
+            },
+            {
+              "text": "ssh",
+              "link": "/linux/ssh"
+            },
+            {
+              "text": "vi&vim",
+              "link": "/linux/vi&vim"
+            },
+            {
+              "text": "yum&dnf&apt",
+              "link": "/linux/yum&dnf&apt"
+            }
+          ]
+        }
       ],
-      "/linux": [
+      "/media/": [
         {
-          text: "Linux",
-          items: [
-            { text: "Linux", link: "/linux/linux" },
-            { text: "vi & vim", link: "/linux/vi&vim" },
-          ],
-        },
+          "text": "media",
+          "collapsed": false,
+          "items": [
+            {
+              "text": "ffmpeg",
+              "link": "/media/ffmpeg"
+            },
+            {
+              "text": "pngquant",
+              "link": "/media/pngquant"
+            }
+          ]
+        }
       ],
-      "/docker": [
+      "/node/": [
         {
-          text: "Docker",
-          items: [{ text: "Docker", link: "/docker/docker" }],
-        },
+          "text": "node",
+          "collapsed": false,
+          "items": [
+            {
+              "text": "browser-sync",
+              "link": "/node/browser-sync"
+            },
+            {
+              "text": "ejs",
+              "link": "/node/ejs"
+            },
+            {
+              "text": "express",
+              "link": "/node/express"
+            },
+            {
+              "text": "jwt",
+              "link": "/node/jwt"
+            },
+            {
+              "text": "knex",
+              "link": "/node/knex"
+            },
+            {
+              "text": "marked",
+              "link": "/node/marked"
+            },
+            {
+              "text": "node",
+              "link": "/node/node"
+            },
+            {
+              "text": "npm&yarn&npx&pnpm",
+              "link": "/node/npm&yarn&npx&pnpm"
+            }
+          ]
+        }
       ],
-      "/util": [
+      "/public/": [
         {
-          text: "Util",
-          items: [
-            { text: "Home Brew", link: "/util/homebrew" },
-            { text: "Oh My Zsh", link: "/util/ohmyzsh" },
-            { text: "Email", link: "/util/email" },
-          ],
-        },
+          "text": "public",
+          "collapsed": false,
+          "items": [
+            {
+              "text": "FAVICON",
+              "collapsed": true,
+              "items": []
+            }
+          ]
+        }
       ],
-      "/examples": [
+      "/sql/": [
         {
-          text: "Examples",
-          items: [
-            { text: "Markdown Examples", link: "/examples/markdown-examples" },
-            { text: "Runtime API Examples", link: "/examples/api-examples" },
-          ],
-        },
+          "text": "sql",
+          "collapsed": false,
+          "items": [
+            {
+              "text": "mysql",
+              "link": "/sql/mysql"
+            },
+            {
+              "text": "postgresql",
+              "link": "/sql/postgresql"
+            }
+          ]
+        }
       ],
+      "/start/": [
+        {
+          "text": "start",
+          "collapsed": false,
+          "items": [
+            {
+              "text": "markdown",
+              "link": "/start/markdown"
+            },
+            {
+              "text": "upload",
+              "link": "/start/upload"
+            },
+            {
+              "text": "virtual",
+              "link": "/start/virtual"
+            }
+          ]
+        }
+      ],
+      "/util/": [
+        {
+          "text": "util",
+          "collapsed": false,
+          "items": [
+            {
+              "text": "email",
+              "link": "/util/email"
+            },
+            {
+              "text": "homebrew",
+              "link": "/util/homebrew"
+            },
+            {
+              "text": "ohmyzsh",
+              "link": "/util/ohmyzsh"
+            }
+          ]
+        }
+      ]
     },
-
-    outline: {
-      level: [1, 6],
-      label: "页面导航",
+    "outline": {
+      "level": [
+        1,
+        6
+      ],
+      "label": "页面导航"
     },
-
-    socialLinks: [{ icon: "github", link: "https://github.com/Ms-150" }],
-
-    footer: {
-      message: "Released under the MIT License.",
-      copyright: `Copyright © 2019-${new Date().getFullYear()} 🌕🌖🌗🌘🌑🌒🌓🌔`,
-    },
+    "socialLinks": [
+      {
+        "icon": "github",
+        "link": "https://github.com/Ms-150"
+      }
+    ],
+    "footer": {
+      "message": "Released under the MIT License.",
+      "copyright": "Copyright © 2019-2024 🌕🌖🌗🌘🌑🌒🌓🌔"
+    }
   },
-  srcDir: "./src",
-  ignoreDeadLinks: true, // 忽略死链
+  "srcDir": "./src",
+  "ignoreDeadLinks": true
 });
