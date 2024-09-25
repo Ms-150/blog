@@ -1,7 +1,8 @@
 # Mockjs
 
 一个用于生成随机数据和拦截 Ajax 请求的库。
-[mockjs.com](mockjs.com)
+
+[http://mockjs.com/](http://mockjs.com/)
 
 [https://github.com/nuysoft/Mock](https://github.com/nuysoft/Mock)
 

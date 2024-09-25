@@ -641,21 +641,4 @@ systemctl restart network
 
 + yum
 + dnf
-
-## SSH 
-
-### 连接
-
-```bash
-ssh -p 22 root@192.168.1.101
-
-```
-
-### 上传/下载文件
-```bash
-# 上传文件夹到服务器
-scp -r /Users/ms/Documents/test root@ip地址:/home
-
-# 服务器下载 build 目录到 Documents
-scp -r root@id地址:home/build /Users/ms/Documents
-```
++ apt-get
