@@ -12,12 +12,13 @@
 
 ::: code-group
 
-```bash [serve]
-apt install openssh-server
+```bash [server]
+sudo apt install openssh-server # 安装OpenSSH服务器
 
-sudo ufw allow ssh
-sudo systemctl start ssh
+sudo systemctl start ssh    # 启动SSH服务
 sudo systemctl enable ssh
+
+sudo ufw allow ssh  # 防火墙配置
 ```
 
 ```bash [client]

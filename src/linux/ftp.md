@@ -12,11 +12,22 @@
    命令端口：默认端口为 21。
    数据端口：根据传输模式不同，主动模式下服务器会主动连接客户端随机端口，被动模式下服务器提供一个随机端口，客户端主动连接。
 
-## 常用的 FTP 客户端工具：
+## 常用的 FTP 客户端工具
 
 命令行 FTP：几乎所有操作系统都内置了 FTP 客户端（ftp 命令）。
-FileZilla：常用的跨平台 FTP 客户端，支持图形界面操作，方便文件管理。
-WinSCP：Windows 上的 FTP、SFTP 和 SCP 客户端。
+
+- FileZilla：常用的跨平台 FTP 客户端，支持图形界面操作，方便文件管理。
+- WinSCP：Windows 上的 FTP、SFTP 和 SCP 客户端。
+
+```bash
+ftp <服务器地址>    # 连接
+bye               # 退出 FTP 会话
+
+get <文件名>        # 下载文件到本地
+put <文件名>        # 上传文件到服务器
+mget <文件名模式>    # 批量下载文件
+mput <文件名模式>    # 批量上传文件
+```
 
 # SFTP （SSH File Transfer Protocol，安全文件传输协议）
 
@@ -25,15 +36,28 @@ WinSCP：Windows 上的 FTP、SFTP 和 SCP 客户端。
 
 ## usage
 
-```bash
+::: code-group
+
+```bash [server]
+sudo apt install openssh-server # 安装OpenSSH服务器
+
+sudo systemctl start ssh    # 启动SSH服务
+sudo systemctl enable ssh
+
+sudo ufw allow ssh  # 防火墙配置
+```
+
+```bash [client]
 # 连接 SFTP 服务器
-sftp <username>@<hostname>
+sftp -p 22 <username>@<hostname>
 
 # 退出 SFTP 会话
 bey
 ```
 
-###
+:::
+
+### command
 
 ```bash
 # 上传文件
