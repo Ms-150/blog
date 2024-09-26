@@ -29,9 +29,26 @@ exit    # 断开
 
 :::
 
-### 文件传输
+## SCP (Secure Copy Protocol)
+
+它利用 SSH 提供的安全加密通道来传输文件，确保数据在传输过程中不被窃取或篡改。
+这意味着 SCP 也继承了 SSH 的安全特性，包括身份验证和加密，使其成为一种安全的文件传输方式。
+
+### command
 
 ```bash
+scp [选项] [源文件] [目标]
+    -r # 递归复制目录
+    -P # 指定远程主机端口（注意是大写）
+    -v # 显示详细的传输信息
+```
+
+### example
+
+```bash
+# 上传文件到服务器
+scp myfile.txt root@ip地址:/home
+
 # 上传文件夹到服务器
 scp -r /Users/ms/Documents/test root@ip地址:/home
 
