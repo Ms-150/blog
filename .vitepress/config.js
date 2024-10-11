@@ -249,6 +249,10 @@ export default defineConfig({
               "link": "/js/router"
             },
             {
+              "text": "typescript",
+              "link": "/js/typescript"
+            },
+            {
               "text": "vite",
               "link": "/js/vite"
             }
