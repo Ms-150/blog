@@ -3,7 +3,7 @@
 Typescript 是 Javascript 类型的超集，它可以编译成纯 Javascript。
 Typescript 可以在任何浏览器、任何计算机和任何操作系统上运行，并且是开源的。
 
-[官网](https://www.typescriptlang.org/)
+[https://www.typescriptlang.org/](https://www.typescriptlang.org/)
 
 ## 安装
 
@@ -148,17 +148,17 @@ tsc xxx.ts
   console.log(value); // 输出 2
   ```
 
-- void
+- `void`
 
   ##### 标识方法返回值的类型 标识该方法没有返回值
 
   function hello() :void {}
 
-- null
+- `null`
 
   ##### 表示对象值的缺失
 
-- undefined
+- `undefined`
 
   ##### 用于初始化变量为一个未定义的值
 

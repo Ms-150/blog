@@ -19,7 +19,7 @@ brew services start mysql
 
 ```sh [docker]
 docker pull mysql
-docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -p3306:3306 -d mysql
+docker run --name mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql
 ```
 
 :::
@@ -147,6 +147,7 @@ SHOW DATABASES;
 CREATE DATABASE [IF NOT EXISTS] database_name;
 -- [IF NOT EXISTS] 防止创建已存在的新表而产生错误。
 DEFAULT CHARACTER SET = 'utf8mb4';
+-- 设置默认字符集
 >>>
 mysql> CREATE DATABASE database_name;
 Query OK, 1 row affected (0.01 sec)
@@ -313,17 +314,19 @@ ADD PRIMARY KEY (id);
 
 ```sql
 INSERT INTO table_name
-(column_name1, value1)
+(column_name1, column_name2)
 VALUES
-(column_name2, value2);
+(value1, value2),
+(value1, value2);
 
 -- example
 INSERT INTO table_name
 (id, name, age)
 VALUES
 (2, "lisi", 20);
+(3, "pics", 10);
 >>>
-Query OK, 1 row affected (0.01 sec)
+Query OK, 2 row affected (0.01 sec)
 ```
 
 ### 删除数据 DELETE FROM
@@ -333,9 +336,10 @@ DELETE FROM table_name
 [WHERE condition];        -- condition 条件可选 不带条件 删除全部
 
 -- example
+-- 删除单个
 DELETE FROM table_name
 WHERE age>18;
-
+-- 删除多个
 DELETE FROM table_name
 WHERE age IN(15,16,17);
 ```
@@ -507,13 +511,13 @@ WHERE name LIKE '_a%'; -- 查询第二个字母是a
 
 1. 算术表达式
 
-| 函数/表达式 | 作用                 |
-| ----------- | -------------------- |
-| `+`         | 加法                 |
-| `-`         | 减法                 |
-| `*`         | 乘法                 |
-| `/`         | 除法                 |
-| `%`         | 取模，返回除法的余数 |
+| 函数/表达式 | 作用                |
+| ----------- | ------------------- |
+| `+`         | 加法                |
+| `-`         | 减法                |
+| `*`         | 乘法                |
+| `/`         | 除法                |
+| `%`         | 取模 返回除法的余数 |
 
 ```sql
 SELECT 10 + 5 AS result;
@@ -549,9 +553,9 @@ SELECT 10 % 3 AS result;
 SELECT CONCAT(first_name, ' ', last_name) AS full_name
 FROM user;
 
+-- 截取左侧3个字符
 SELECT LEFT(name, 3) AS short_name
 FROM user;
-
 ```
 
 3. 逻辑表达式
@@ -578,7 +582,6 @@ WHERE city = 'New York' OR city = 'Los Angeles';
 SELECT *
 FROM user
 WHERE NOT age < 18;
-
 ```
 
 4. 比较表达式
@@ -635,6 +638,9 @@ WHERE address IS NULL;
 ```sql
 SELECT DATEDIFF(NOW(), '2023-01-01') AS days_difference;
 
+SELECT ADDDATE('2024-10-01', INTERVAL 10 DAY) AS new_date;
+
+SELECT SUBDATE('2024-10-11', INTERVAL 5 DAY) AS new_date;
 ```
 
 7. 聚合表达式
@@ -646,6 +652,11 @@ SELECT DATEDIFF(NOW(), '2023-01-01') AS days_difference;
 | `AVG()`     | 计算平均值     |
 | `MIN()`     | 返回最小值     |
 | `MAX()`     | 返回最大值     |
+
+```sql
+-- 查询用户表的长度
+SELECT COUNT(*) FROM user;
+```
 
 8. 其他
 
@@ -714,10 +725,11 @@ SELECT address, count(address) from table_name where age>=15 group by address ha
 ## 子查询 Subquery
 
 一种嵌套在另一个查询语句中的查询。子查询通常用于从另一个查询的结果集中筛选数据。
+子查询 用小括号 () 包裹
 
 ```sql
 SELECT * FROM tables
-WHERE user_id = (SELECT id FROM user WHERE id = 1)
+WHERE user_id = (SELECT id FROM user WHERE id = 1)å
 ```
 
 ## 联表查询 JOIN Query

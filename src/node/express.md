@@ -55,12 +55,12 @@ app.get("/about", (req, res) => {
 - req.query
 
 ```js
-app.get('/search', (req, res) => {
+// http://localhost:3000/search?q=express
+
+app.get("/search", (req, res) => {
   const query = req.query.q;
   res.send(`搜索内容: ${query}`);
 });
->>>
-http://localhost:3000/search?q=express
 ```
 
 2. 路由 参数
@@ -68,13 +68,13 @@ http://localhost:3000/search?q=express
 - 动态参数 req.params / req.body
 
 ```js
+// http://localhost:3000/user/123
+
 // 处理包含用户ID的路径的 GET 请求
 app.get("/user/:id", (req, res) => {
   const userId = req.params.id;
   res.send(`User ID: ${userId}`);
 });
->>>
-http://localhost:3000/user/123
 
 // 处理请求体数据 中间件
 app.use(express.json());
@@ -105,32 +105,33 @@ app.get(
 );
 ```
 
-### 路由模块化
+### 静态路由模块化
+
+处理特定的、预定义的 URL 路径，比如 / 和 /about。
 
 1. 创建路由模块 express.Router()
+2. 使用路由模块
 
-```js
-touch routes.js
-// routes.js
-const express = require('express');
+::: code-group
+
+```js [routes.js]
+const express = require("express");
 const router = express.Router();
 
 // 处理根路径的 GET 请求
-router.get('/', (req, res) => {
-  res.send('Home page');
+router.get("/", (req, res) => {
+  res.send("Home page");
 });
 
 // 处理 /about 路径的 GET 请求
-router.get('/about', (req, res) => {
-  res.send('About us page');
+router.get("/about", (req, res) => {
+  res.send("About us page");
 });
 
 module.exports = router;
 ```
 
-2. 使用路由模块
-
-```js
+```js [app.js]
 const express = require("express");
 const app = express();
 
@@ -146,7 +147,11 @@ app.listen(3000, () => {
 });
 ```
 
+:::
+
 ### 参数化路由模块
+
+处理包含动态参数的 URL，比如 /user/:id。
 
 1. 创建一个接受动态参数的路由模块
 

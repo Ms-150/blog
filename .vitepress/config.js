@@ -245,6 +245,10 @@ export default defineConfig({
               "link": "/js/navigator.sendBeacon"
             },
             {
+              "text": "qrcode",
+              "link": "/js/qrcode"
+            },
+            {
               "text": "router",
               "link": "/js/router"
             },
