@@ -249,6 +249,10 @@ export default defineConfig({
               "link": "/js/qrcode"
             },
             {
+              "text": "react",
+              "link": "/js/react"
+            },
+            {
               "text": "router",
               "link": "/js/router"
             },
@@ -279,6 +283,10 @@ export default defineConfig({
             {
               "text": "ssh",
               "link": "/linux/ssh"
+            },
+            {
+              "text": "tree",
+              "link": "/linux/tree"
             },
             {
               "text": "vi&vim",
@@ -329,10 +337,6 @@ export default defineConfig({
               "link": "/node/jwt"
             },
             {
-              "text": "knex",
-              "link": "/node/knex"
-            },
-            {
               "text": "marked",
               "link": "/node/marked"
             },
@@ -366,12 +370,20 @@ export default defineConfig({
           "collapsed": false,
           "items": [
             {
+              "text": "knex",
+              "link": "/sql/knex"
+            },
+            {
               "text": "mysql",
               "link": "/sql/mysql"
             },
             {
               "text": "postgresql",
               "link": "/sql/postgresql"
+            },
+            {
+              "text": "prisma",
+              "link": "/sql/prisma"
             }
           ]
         }
