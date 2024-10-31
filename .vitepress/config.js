@@ -131,6 +131,18 @@ export default defineConfig({
           ]
         }
       ],
+      "/demo/": [
+        {
+          "text": "demo",
+          "collapsed": false,
+          "items": [
+            {
+              "text": "cameraPreview",
+              "link": "/demo/cameraPreview"
+            }
+          ]
+        }
+      ],
       "/docker/": [
         {
           "text": "docker",
@@ -396,6 +408,10 @@ export default defineConfig({
             {
               "text": "markdown",
               "link": "/start/markdown"
+            },
+            {
+              "text": "schema",
+              "link": "/start/schema"
             },
             {
               "text": "upload",
