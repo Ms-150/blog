@@ -1751,3 +1751,57 @@ app.get("/sse", (req, res) => {
 ```
 
 :::
+
+## 串口 Serial Port
+
+Node SerialPort 是一个用于连接串行端口的 JavaScript 库，可在 NodeJS 和 Electron 中运行。
+
+```bash
+npm install serialport
+```
+
+::: code-group
+
+```js [查看可用的串口端口]
+import { SerialPort } from "serialport";
+
+SerialPort.list()
+  .then((ports) => {
+    console.log(ports); // 输出全部串口
+  })
+  .catch((err) => {
+    console.error("获取串口列表失败:", err.message);
+  });
+```
+
+```js [创建串口端口]
+import { SerialPort } from "serialport";
+
+// 创建端口
+const port = new SerialPort({
+  path: "/dev/tty-usbserial1", //
+  baudRate: 57600, // 波特率
+});
+```
+
+```js [监听 通讯]
+import { SerialPort } from "serialport";
+
+const serialPort = new SerialPort({
+  path: "COM4", //单片机串口
+  baudRate: 9600, //波特率
+});
+
+serialPort.on("data", () => {
+  console.log("data"); //监听单片机的消息
+});
+
+let flag = 1;
+setInterval(() => {
+  serialPort.write(flag + ""); //跟单片机进行通讯 传值
+  flag = Number(!flag);
+  console.log(flag == 0 ? "开" : "关"); //进行开关的切换
+}, 2000);
+```
+
+:::

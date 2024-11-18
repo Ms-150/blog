@@ -28,7 +28,6 @@ tsc xxx.ts
 
 :::
 
-
 ## 数据类型
 
 ### 1. 基本类型
@@ -191,7 +190,7 @@ type Point = { x: number; y: number };
 type Color = { color: string };
 
 type ColoredPoint = Point & Color;
-let coloredPoint: ColoredPoint = {x: 1, y: 2, color: "red"};
+let coloredPoint: ColoredPoint = { x: 1, y: 2, color: "red" };
 ```
 
 ### 断言类型
@@ -216,9 +215,9 @@ let x: string | null | undefined;
 user!.toUpperCase(); // ! 变量不为空
 ```
 
-### 类型守卫
+## 类型守卫
 
-- #### in 判断是否包含某个属性
+- ### `in` 判断是否包含某个属性
 
 ```ts
 interface isObject1 {
@@ -236,11 +235,11 @@ function isInObject(arg: isObject1 | isObject2) {
   if ("y" in arg) console.log(arg.y);
 }
 
-isInObject({a: 1, x: "xxx"});
-isInObject({a: 1, y: "yyy"});
+isInObject({ a: 1, x: "xxx" });
+isInObject({ a: 1, y: "yyy" });
 ```
 
-- #### typeof 判断参数的类型
+- ### `typeof` 判断参数的类型
 
 ```ts
 function isTypeof(value: string | number) {
@@ -249,7 +248,7 @@ function isTypeof(value: string | number) {
 }
 ```
 
-- #### 获取变量的类型
+- ### 获取变量的类型
 
 ```ts
 const user = {
@@ -260,16 +259,18 @@ const user = {
 type UserType = typeof user;
 ```
 
-- #### 判断参数的类型
+- ### 判断参数的类型
 
-```ts
-// typeof
+::: code-group
+
+```ts [typeof]
 function isTypeof(val: string | number) {
   if (typeof val === "number") return "number";
   if (typeof val === "string") return "string";
 }
+```
 
-// instanceof
+```ts [instanceof]
 function createDate(date: Date | string) {
   if (date instanceof Date) {
     date.getDate();
@@ -278,6 +279,8 @@ function createDate(date: Date | string) {
   }
 }
 ```
+
+:::
 
 ### 函数
 
@@ -479,10 +482,9 @@ interface IParent2 {
   v2: number;
 }
 
-interface Child extends IParent1, IParent2 {
-}
+interface Child extends IParent1, IParent2 {}
 
-let Iobj: Child = {v1: 1, v2: 2};
+let Iobj: Child = { v1: 1, v2: 2 };
 ```
 
 ### 命名空间 namespace
@@ -677,4 +679,3 @@ declare type SomeType = string | number;
 
   type Greeting = ReturnType<typeof greet>; // 类型为 string
   ```
-

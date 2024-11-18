@@ -139,6 +139,10 @@ export default defineConfig({
             {
               "text": "cameraPreview",
               "link": "/demo/cameraPreview"
+            },
+            {
+              "text": "shortLink",
+              "link": "/demo/shortLink"
             }
           ]
         }
@@ -253,6 +257,10 @@ export default defineConfig({
               "link": "/js/n"
             },
             {
+              "text": "nanoid",
+              "link": "/js/nanoid"
+            },
+            {
               "text": "navigator.sendBeacon",
               "link": "/js/navigator.sendBeacon"
             },
@@ -345,6 +353,10 @@ export default defineConfig({
               "link": "/node/express"
             },
             {
+              "text": "ioredis",
+              "link": "/node/ioredis"
+            },
+            {
               "text": "jwt",
               "link": "/node/jwt"
             },
@@ -396,6 +408,10 @@ export default defineConfig({
             {
               "text": "prisma",
               "link": "/sql/prisma"
+            },
+            {
+              "text": "redis",
+              "link": "/sql/redis"
             }
           ]
         }
@@ -440,6 +456,10 @@ export default defineConfig({
             {
               "text": "ohmyzsh",
               "link": "/util/ohmyzsh"
+            },
+            {
+              "text": "ping",
+              "link": "/util/ping"
             }
           ]
         }

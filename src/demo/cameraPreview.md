@@ -6,6 +6,8 @@ import CameraPreview from './CameraPreview.vue';
 
 ---
 
+# 摄像头视频预览
+
 这里是一个示例，通过获取摄像头视频流来实现视频预览和录制。
 
 ::: code-group
