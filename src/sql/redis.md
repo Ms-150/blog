@@ -536,7 +536,7 @@ SAVE
 将所有写操作记录到一个日志文件（通常为 `appendonly.aof`），并在 Redis 重启时按顺序重放这些操作来恢复数据。
 AOF 提供更高的数据安全性，因为可以更频繁地将数据写入磁盘。
 
-```conf
+```bash
 # 修改 /usr/local/etc/redis.conf
 
 # appendonly no
@@ -619,7 +619,7 @@ redis-cli -p 6380
 
 - `Redis Sentinel` 自动故障转移
 
-```conf [redis-sentinel.conf]
+```bash [redis-sentinel.conf]
 # sentinel monitor <master-name> <ip> <redis-port> <quorum>
 # master-name：主服务器的名称，通常用于标识主服务器。
 # master-ip：主服务器的 IP 地址。

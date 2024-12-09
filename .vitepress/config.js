@@ -361,6 +361,10 @@ export default defineConfig({
               "link": "/node/jwt"
             },
             {
+              "text": "lua",
+              "link": "/node/lua"
+            },
+            {
               "text": "marked",
               "link": "/node/marked"
             },
@@ -448,6 +452,10 @@ export default defineConfig({
             {
               "text": "email",
               "link": "/util/email"
+            },
+            {
+              "text": "exiftool",
+              "link": "/util/exiftool"
             },
             {
               "text": "homebrew",
