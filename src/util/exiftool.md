@@ -16,7 +16,9 @@ Exchangeable Image File Format Tool
 ```bash
 brew install exiftool
 
-exif -v
+exiftool -ver
+>>>
+13.00
 ```
 
 ## usage

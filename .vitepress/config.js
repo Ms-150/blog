@@ -468,6 +468,10 @@ export default defineConfig({
             {
               "text": "ping",
               "link": "/util/ping"
+            },
+            {
+              "text": "transformTools",
+              "link": "/util/transformTools"
             }
           ]
         }
