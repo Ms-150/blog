@@ -2,7 +2,7 @@
 
 Lua 是一种轻量级、高效的脚本语言，常用于嵌入式开发、游戏开发和配置管理。
 
-[www.lua.org](www.lua.org)
+[https://www.lua.org/](https://www.lua.org/)
 
 ## install
 
@@ -30,15 +30,53 @@ lua hello.lua
 
 ## Basic Syntax 基本语法
 
-### 变量和数据类型
+### variable and data types 变量和数据类型
 
 ```lua
--- 全局变量
-name = "Lua"      -- 字符串
-age = 30          -- 数字
-isLearning = true -- 布尔值
-null = nil        -- 空
+x = 10              -- 整型变量
+y = 3.14            -- 浮点型变量
+name = "Lua"        -- 字符串变量
+isActive = true     -- 布尔型变量
+null = nil          -- 空
 
+-- 全局变量
+x = 10  -- 这是一个全局变量
+-- 局部变量
+local y = 20  -- 这是一个局部变量，只在当前块有效
+```
+
+### 表
+
+- 数组 `默认从 1 开始索引`
+- 对象
+
+```lua
+array = {10, 20, 30, 40}    -- 数组
+
+-- 遍历数组
+for i, value in ipairs(array) do
+    print(i, value)
+end
+
+-- 向数组添加元素
+table.insert(array, 50)  -- 在末尾添加元素
+table.insert(array, 1, 5)  -- 在索引 1 处添加元素
+
+-- 删除数组元素
+table.remove(array)  -- 删除数组的最后一个元素
+table.remove(array, 2)  -- 删除索引为 2 的元素
+```
+
+### 变量检测 type()
+
+```lua
+type(10)       -- number
+type("hello")  -- string
+type(true)     -- boolean
+type(nil)      -- nil
+```
+
+```lua
 obj = {           -- 对象
     nama = "ms",
     age = 18
@@ -46,8 +84,6 @@ obj = {           -- 对象
 
 -- 局部变量
 local pi = 3.14
-
-
 ```
 
 ### 控制语句

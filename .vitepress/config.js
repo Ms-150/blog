@@ -1,7 +1,7 @@
 import { defineConfig } from "vitepress";
 
 export default defineConfig({
-  "base": "/blog",
+  // "base": "/blog",
   "lang": "zh-CN",
   "head": [
     [
@@ -143,6 +143,10 @@ export default defineConfig({
             {
               "text": "shortLink",
               "link": "/demo/shortLink"
+            },
+            {
+              "text": "watermark",
+              "link": "/demo/watermark"
             }
           ]
         }
@@ -456,6 +460,10 @@ export default defineConfig({
             {
               "text": "exiftool",
               "link": "/util/exiftool"
+            },
+            {
+              "text": "fangfanggezi",
+              "link": "/util/fangfanggezi"
             },
             {
               "text": "homebrew",
