@@ -1,7 +1,6 @@
 import { defineConfig } from "vitepress";
 
 export default defineConfig({
-  // "base": "/blog",
   "lang": "zh-CN",
   "head": [
     [
@@ -453,6 +452,10 @@ export default defineConfig({
           "text": "util",
           "collapsed": false,
           "items": [
+            {
+              "text": "baota",
+              "link": "/util/baota"
+            },
             {
               "text": "email",
               "link": "/util/email"
