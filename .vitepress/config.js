@@ -470,6 +470,10 @@ export default defineConfig({
           "collapsed": false,
           "items": [
             {
+              "text": "baota",
+              "link": "/util/baota"
+            },
+            {
               "text": "email",
               "link": "/util/email"
             },
