@@ -1,6 +1,7 @@
 import { defineConfig } from "vitepress";
 
 export default defineConfig({
+  "base": "/blog",
   "lang": "zh-CN",
   "head": [
     [
@@ -443,6 +444,22 @@ export default defineConfig({
             {
               "text": "virtual",
               "link": "/start/virtual"
+            },
+            {
+              "text": "wordpress",
+              "link": "/start/wordpress"
+            }
+          ]
+        }
+      ],
+      "/uniapp/": [
+        {
+          "text": "uniapp",
+          "collapsed": false,
+          "items": [
+            {
+              "text": "index",
+              "link": "/uniapp/index"
             }
           ]
         }
@@ -471,6 +488,10 @@ export default defineConfig({
             {
               "text": "homebrew",
               "link": "/util/homebrew"
+            },
+            {
+              "text": "localsend",
+              "link": "/util/localsend"
             },
             {
               "text": "ohmyzsh",

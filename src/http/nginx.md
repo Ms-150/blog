@@ -36,11 +36,13 @@ nginx -h
 - 全局配置
 - events // 事件模块
 - http // HTTP 模块
-  - Server // Server 指令
+  - server // server 指令
   - ...
-  - include servers/\*; // 其他 Server 指令
+  - include servers/\*; // 其他 server 指令
 
+```bash
 vim /usr/local/etc/nginx/nginx.conf
+```
 
 1. 全局配置
 
@@ -190,15 +192,15 @@ server {
 
 #### 常见配置项
 
-| 配置项     | 说明                                                 | 示例                               |
-| ---------- | -------------------------------------------------- | ---------------------------------- |
-| proxy_pass | 反向代理 将请求转发到另一台服务器 反向代理                | proxy_pass http://backend;         |
-| rewrite    | URL 重写规则                                         | rewrite ^/old/(.\*)$ /new/$1 last; |
+| 配置项     | 说明                                                    | 示例                               |
+| ---------- | ------------------------------------------------------- | ---------------------------------- |
+| proxy_pass | 反向代理 将请求转发到另一台服务器 反向代理              | proxy_pass http://backend;         |
+| rewrite    | URL 重写规则                                            | rewrite ^/old/(.\*)$ /new/$1 last; |
 | return     | 返回指定的 HTTP 状态码或重定向                          | return 404;                        |
-| try_files  | 尝试访问多个文件或路径，如果第一个不存在，则尝试下一个       | try_files $uri $uri/ =404;         |
-| root       | 指定当前 location 的根目录                             | root /var/www/html;                |
-| alias      | 指定当前 location 的文件系统路径（alias 替换 URI 部分）   | alias /var/www/html/blog;          |
-| index      | 设置当前 location 的首页文件                           | index index.html index.htm;        |
+| try_files  | 尝试访问多个文件或路径，如果第一个不存在，则尝试下一个  | try_files $uri $uri/ =404;         |
+| root       | 指定当前 location 的根目录                              | root /var/www/html;                |
+| alias      | 指定当前 location 的文件系统路径（alias 替换 URI 部分） | alias /var/www/html/blog;          |
+| index      | 设置当前 location 的首页文件                            | index index.html index.htm;        |
 
 #### 正则
 
@@ -275,6 +277,7 @@ upstream backend {
 ```
 
 ### gzip
+
 gzip 模块 主要用于对 Nginx 的`响应内容`进行压缩
 
 #### 好处
