@@ -16,6 +16,7 @@
 
 ```bash
 npm -v                 # 版本提示
+npm -h
 npm config list		   # 查看当前 npm 配置项
 npm install 包名        # 安装模块
 npm install 包名 -g     # 全局安装模块

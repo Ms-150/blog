@@ -1109,12 +1109,12 @@ let decrypted = crypto.privateDecrypt(privateKey, encrypted);
 console.log("Decrypted:", decrypted.toString("utf-8"));
 ```
 
-## 脚手架
+## cli 脚手架
 
-- commander 一个强大的命令行参数解析工具，适用于处理命令、选项和参数。
-- inquirer 一个用于与命令行用户进行交互的库，能够创建漂亮的命令行提示。
-- ora 一个用于在命令行中显示加载动画（spinner）的库，常用于显示异步操作的进度。
-- download-git-repo 一个用于从 Git 仓库（如 GitHub、GitLab 等）下载项目模板的库，常用于脚手架工具中自动拉取模板。
+- `commander` 一个强大的命令行参数解析工具，适用于处理命令、选项和参数。
+- `inquirer` 一个用于与命令行用户进行交互的库，能够创建漂亮的命令行提示。
+- `ora` 一个用于在命令行中显示加载动画（spinner）的库，常用于显示异步操作的进度。
+- `download-git-repo` 一个用于从 Git 仓库（如 GitHub、GitLab 等）下载项目模板的库，常用于脚手架工具中自动拉取模板。
 
 ### install
 
@@ -1235,6 +1235,32 @@ export const downloadTemp = (branch, name) => {
 ```
 
 :::
+
+4. login
+
+```bash
+npm login
+```
+
+::: warning
+note npm registry
+
+```bash
+npm config get registry
+
+npm config set registry https://registry.npmjs.org/
+
+# taobao
+npm config set registry https://registry.npmmirror.com/
+```
+
+:::
+
+5. publish
+
+```bash
+npm publish
+```
 
 ## zlib
 

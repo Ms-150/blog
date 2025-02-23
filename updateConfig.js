@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { fileURLToPath } from 'url';
+import { fileURLToPath } from "url";
 import config from "./.vitepress/config.js";
 
 // 获取当前文件的目录路径
@@ -63,11 +63,14 @@ config.themeConfig.sidebar = {};
 config.themeConfig.sidebar = sidebar;
 
 // 将更新后的配置写回 .js 文件
-const updatedConfigContent = `import { defineConfig } from "vitepress";
-
-export default defineConfig(${JSON.stringify(config, null, 2)});
+const updatedConfigContent = `
+  import { defineConfig } from "vitepress";
+  export default defineConfig(${JSON.stringify(config, null, 2)});
 `;
 
 fs.writeFileSync(configPath, updatedConfigContent, "utf-8");
 
-console.log("config.js has been updated with the new sidebar.");
+console.log(
+  new Date().toLocaleTimeString() +
+    " config.js has been updated with the new sidebar."
+);
