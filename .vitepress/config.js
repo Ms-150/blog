@@ -1,6 +1,6 @@
-import { defineConfig } from "vitepress";
 
-export default defineConfig({
+  import { defineConfig } from "vitepress";
+  export default defineConfig({
   "base": "/blog",
   "lang": "zh-CN",
   "head": [
@@ -52,7 +52,7 @@ export default defineConfig({
     ]
   ],
   "title": "🌕🌖🌗🌘🌑🌒🌓🌔's Blog",
-  "description": "A VitePress Site",
+  "description": "🌕🌖🌗🌘🌑🌒🌓🌔's Blog, Powered by VitePress",
   "themeConfig": {
     "search": {
       "provider": "local"
@@ -63,12 +63,12 @@ export default defineConfig({
         "link": "/"
       },
       {
-        "text": "全部",
-        "link": "/start/markdown"
-      },
-      {
         "text": "集合",
         "items": [
+          {
+            "text": "Start",
+            "link": "/start/markdown"
+          },
           {
             "text": "HTTP",
             "link": "/http/tcp"
@@ -136,6 +136,10 @@ export default defineConfig({
           "text": "demo",
           "collapsed": false,
           "items": [
+            {
+              "text": "blobPreview",
+              "link": "/demo/blobPreview"
+            },
             {
               "text": "cameraPreview",
               "link": "/demo/cameraPreview"
@@ -235,6 +239,18 @@ export default defineConfig({
           ]
         }
       ],
+      "/jenkins/": [
+        {
+          "text": "jenkins",
+          "collapsed": false,
+          "items": [
+            {
+              "text": "index",
+              "link": "/jenkins/index"
+            }
+          ]
+        }
+      ],
       "/js/": [
         {
           "text": "js",
@@ -243,6 +259,10 @@ export default defineConfig({
             {
               "text": "ajax",
               "link": "/js/ajax"
+            },
+            {
+              "text": "ali-oss",
+              "link": "/js/ali-oss"
             },
             {
               "text": "amis",
@@ -347,6 +367,10 @@ export default defineConfig({
             {
               "text": "browser-sync",
               "link": "/node/browser-sync"
+            },
+            {
+              "text": "cli",
+              "link": "/node/cli"
             },
             {
               "text": "ejs",
@@ -478,6 +502,10 @@ export default defineConfig({
               "link": "/util/email"
             },
             {
+              "text": "ewomail",
+              "link": "/util/ewomail"
+            },
+            {
               "text": "exiftool",
               "link": "/util/exiftool"
             },
@@ -525,6 +553,12 @@ export default defineConfig({
     "footer": {
       "message": "Released under the MIT License.",
       "copyright": "Copyright © 2019-2024 🌕🌖🌗🌘🌑🌒🌓🌔"
+    },
+    "lastUpdated": {
+      "text": "最后更新",
+      "formatOptions": {
+        "dateStyle": "medium"
+      }
     }
   },
   "srcDir": "./src",

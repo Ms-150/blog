@@ -758,6 +758,14 @@ SELECT * from `user` LEFT JOIN `tables` ON user.id = tables.user_id;
 SELECT * from `user` RIGHT JOIN `tables` ON user.id = tables.user_id;
 ```
 
+## 数据备份 mysqldump
+
+mysqldump 是 MySQL 提供的命令行工具，用于导出数据库的结构和数据。
+
+```bash
+
+```
+
 ## mysql2
 
 ```bash

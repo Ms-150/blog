@@ -184,7 +184,7 @@ xhr.onerror = function () {
 
 ```js
 fetch(url[, options])
-  .then(response => response.json())
+  .then(response => response.json()) // 格式化返回的数据
   .then(data => console.log(data))
   .catch(error => console.error('Error:', error));
 ```
