@@ -307,6 +307,10 @@
             {
               "text": "vite",
               "link": "/js/vite"
+            },
+            {
+              "text": "xlsx",
+              "link": "/js/xlsx"
             }
           ]
         }
@@ -339,6 +343,10 @@
             {
               "text": "yum&dnf&apt",
               "link": "/linux/yum&dnf&apt"
+            },
+            {
+              "text": "zip&gzip&xz&tar",
+              "link": "/linux/zip&gzip&xz&tar"
             }
           ]
         }

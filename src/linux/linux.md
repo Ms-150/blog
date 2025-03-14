@@ -173,75 +173,14 @@ man [section] command   # 跳转到手册的特定章节
 le --help
 ```
 
-## 压缩 与 解压
+## 压缩 / 解压 / 打包
 
-- ### `.zip`
+- zip
+- gzip
+- xz
+- tar
 
-  ```bash
-  # 压缩
-  zip [选项] 输出文件名.zip 输入文件或目录
-    -r # recursive 递归地压缩目录及其子目录中的所有文件
-
-  # 将多个文件压缩成一个ZIP文件
-  zip archive.zip file1.txt file2.txt file3.txt
-
-  # 递归压缩目录
-  zip -r archive.zip folder1
-
-  # 安装 zip
-  yum install zip
-  ```
-
-  ```bash
-  # 解压缩
-  unzip 压缩文件名.zip
-
-  # example
-  unzip archive.zip
-
-  # 安装 unzip
-  yum install unzip
-  ```
-
-- ### `.gz`
-
-  ```bash
-  # 压缩文件
-  gzip file.txt   # 压缩 默认删除原文件
-    -k  # keep 保留原文件
-    -r  # 递归压缩和解压缩目录
-
-  gzip -r folder1  # 递归压缩目录folder1
-
-  # 解压缩文件
-  gunzip file.txt.gz
-  ```
-
-- ### `.tar.gz`
-
-  ```bash
-  # 打包
-  tar -cvf archive.tar file1.txt
-    -c  # create 创建一个新的 tar 文件。
-    -v  # verbose 详细模式，显示正在处理的文件。
-    -f  # file 指定输出文件名。
-
-  # 解包
-  tar -xvf archive.tar
-    -x  # extract 解包（提取）文件。
-    -v  # verbose 详细模式，显示正在处理的文件。
-    -f  # file 指定输入文件名。
-
-  # 打包并使用 gzip 压缩
-  tar -czvf archive.tar.gz file1.txt folder1
-    -z  # gzip 使用 gzip 压缩。
-
-  # 解压 tar.gz 文件
-  tar -xzvf archive.tar.gz
-    -C  # change directory 解包到指定目录
-
-  tar -xzvf archive.tar.gz -C /path/to/directory # 解包到指定目录
-  ```
+详见 [压缩&打包](./zip&gzip&tar&xz.md)
 
 ## 关机 重启
 

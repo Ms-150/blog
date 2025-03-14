@@ -54,11 +54,12 @@ docker container    # 列出 容器相关命令
 dcoker run -d --name <容器名> <镜像名>:<标签>   # 运行容器
 docker run -d -p 80:80 --name nginx_my nginx
 
--d      # 后台运行
+-d      # detached 分离 后台运行
 -p 宿主机端口:容器端口      # 端口映射 宿主机:容器
 --name  # 自定义容器名称
 -it     # 交互模式运行容器并连接终端
 -v      # 将宿主机卷挂载到容器内部
+
 docker ps       # 列出正在运行的容器
 docker ps -a    # 列出所有容器
 
