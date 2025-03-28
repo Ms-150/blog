@@ -44,6 +44,10 @@ docker image rm <镜像名>:<标签>     # 删除镜像 容器用到了先删除
 docker image history <镜像名>:<标签> # 查看镜像的构建历史（即镜像的每一层）
 ```
 
+```bash
+docker exec -it my_centos bash # 进去已运行的容器 bash
+```
+
 ## Container 容器 类似 js 对象
 
 基于镜像启动的一个轻量级、独立的可运行环境。但共享宿主操作系统的内核。容器是隔离的，但可以互相通信。

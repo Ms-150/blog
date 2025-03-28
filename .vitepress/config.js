@@ -145,6 +145,14 @@
               "link": "/demo/cameraPreview"
             },
             {
+              "text": "cpcl",
+              "link": "/demo/cpcl"
+            },
+            {
+              "text": "jsbarcode",
+              "link": "/demo/jsbarcode"
+            },
+            {
               "text": "shortLink",
               "link": "/demo/shortLink"
             },
