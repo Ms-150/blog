@@ -68,6 +68,7 @@ docker ps       # 列出正在运行的容器
 docker ps -a    # 列出所有容器
 
 docker stop <容器名/ID>     # 停止容器
+docker restart <容器名/ID>  # 重新启动容器
 docker rm <容器名/ID>       # 删除容器
 
 docker logs <容器名/ID>     # 查看容器日志
