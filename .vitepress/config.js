@@ -436,6 +436,18 @@
           ]
         }
       ],
+      "/python/": [
+        {
+          "text": "python",
+          "collapsed": false,
+          "items": [
+            {
+              "text": "index",
+              "link": "/python/index"
+            }
+          ]
+        }
+      ],
       "/sql/": [
         {
           "text": "sql",
@@ -509,6 +521,10 @@
           "text": "util",
           "collapsed": false,
           "items": [
+            {
+              "text": "RegularExpressions",
+              "link": "/util/RegularExpressions"
+            },
             {
               "text": "baota",
               "link": "/util/baota"
