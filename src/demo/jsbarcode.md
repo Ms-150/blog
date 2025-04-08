@@ -6,7 +6,6 @@ import JsBarcode from './JsBarcode.vue';
 
 <JsBarcode />
 
----
 
 ## JSBarcode 条形码生成器
 
