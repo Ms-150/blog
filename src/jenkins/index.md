@@ -23,36 +23,55 @@ docker run -d --name jenkins -p 9090:8080 -p 50000:50000 -v jenkins_home:/var/je
 -v # 选项用于挂载数据卷，jenkins_home 是 Docker 卷的名称，/var/jenkins_home 是容器内 Jenkins 的数据目录。
 ```
 
-##
+## init
 
 ```bash
+# 获取初始密码
 docker exec -it jenkins cat /var/jenkins_home/secrets/initialAdminPassword
 ```
 
 ## plugins
 
-### nodejs
+### Git Parameter
 
-```bash
+在构建中分配 git 分支、标签、拉取请求或修订号作为参数。
+
+[https://plugins.jenkins.io/git-parameter/](https://plugins.jenkins.io/git-parameter/)
+
+```
+General > 参数化构建过程
+
+添加参数 > Git 参数 > 参数类型 > 分支
+```
+
+### NodeJS
+
+```
 1. 系统管理 > 全局工具配置 > NodeJS 安装
 
 2. 构建环境"（Build Environment）
 ✅ 勾选 "Provide Node & npm bin/ folder to PATH"
 ```
 
-### Publish over SSH
+### Publish Over SSH
 
-[https://plugins.jenkins.io/publish-over-ssh/]()
+[https://plugins.jenkins.io/publish-over-ssh/](https://plugins.jenkins.io/publish-over-ssh/)
 
-### dingtalk 钉钉机器人
+```
+
+```
+
+### DingTalk
+
+钉钉机器人通知
 
 [https://plugins.jenkins.io/dingding-notifications/](https://plugins.jenkins.io/dingding-notifications/)
 
-https://jenkinsci.github.io/dingtalk-plugin/
+[https://jenkinsci.github.io/dingtalk-plugin/](https://jenkinsci.github.io/dingtalk-plugin/)
 
 ```
 钉钉群 添加自定义机器人
-系统管理 -> 系统配置 -> 钉钉 -> 新增
+系统管理 > 系统配置 > 钉钉 > 新增
 ```
 
 钉钉信息 -> 手机号码 -> 用于在钉钉中 @ 成员
