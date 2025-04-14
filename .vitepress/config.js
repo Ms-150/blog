@@ -584,7 +584,7 @@
     ],
     "footer": {
       "message": "Released under the MIT License.",
-      "copyright": "Copyright © 2019-2024 🌕🌖🌗🌘🌑🌒🌓🌔"
+      "copyright": `<span class='gradient-text'>Copyright © 2019-${new Date().getFullYear()} </span> 🌕🌖🌗🌘🌑🌒🌓🌔`
     },
     "lastUpdated": {
       "text": "最后更新",
