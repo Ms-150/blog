@@ -1,7 +1,7 @@
 
   import { defineConfig } from "vitepress";
   export default defineConfig({
-  "base": "/blog",
+  "base": "/blog/",
   "lang": "zh-CN",
   "head": [
     [
@@ -212,6 +212,10 @@
           "text": "http",
           "collapsed": false,
           "items": [
+            {
+              "text": "caddy",
+              "link": "/http/caddy"
+            },
             {
               "text": "dns",
               "link": "/http/dns"
@@ -584,7 +588,7 @@
     ],
     "footer": {
       "message": "Released under the MIT License.",
-      "copyright": `<span class='gradient-text'>Copyright © 2019-${new Date().getFullYear()} </span> 🌕🌖🌗🌘🌑🌒🌓🌔`
+      "copyright": "<span class='gradient-text'>Copyright © 2019-2025 </span> 🌕🌖🌗🌘🌑🌒🌓🌔"
     },
     "lastUpdated": {
       "text": "最后更新",
