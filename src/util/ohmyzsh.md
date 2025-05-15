@@ -80,7 +80,7 @@ source ~/.zshrc   # 重新加载你的 zsh 配置
 1. download
 
 ```bash
-git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
 ```
 
 2. vim ~/.zshrc
