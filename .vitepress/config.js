@@ -1,7 +1,6 @@
 
   import { defineConfig } from "vitepress";
   export default defineConfig({
-  "base": "/blog/",
   "lang": "zh-CN",
   "head": [
     [
@@ -151,6 +150,10 @@
             {
               "text": "jsbarcode",
               "link": "/demo/jsbarcode"
+            },
+            {
+              "text": "json",
+              "link": "/demo/json"
             },
             {
               "text": "shortLink",
